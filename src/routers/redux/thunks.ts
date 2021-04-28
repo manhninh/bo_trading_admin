@@ -18,6 +18,7 @@ export const fetchLogin = createAsyncThunk('auth/login', async (auth: Auth, thun
       client_secret: config.CLIENT_SECRET,
       scope: config.SCOPE,
       tfa: auth.tfa,
+      admin: true,
     });
     return {result, username: auth.username};
   } catch (error) {

@@ -1,4 +1,5 @@
 import {Button, Form, Input} from 'antd';
+import Search from 'antd/lib/input/Search';
 import useError from 'containers/hooks/errorProvider/useError';
 import {Rule, Store} from 'rc-field-form/lib/interface';
 import React, {useState} from 'react';
@@ -6,14 +7,7 @@ import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {ROUTE_PATH} from 'routers/helpers';
 import {fetchLogin} from 'routers/redux/thunks';
-import './styled.css';
-
-interface IFormInputs {
-  username: string;
-  password: string;
-  isTfa: boolean;
-  tfa: string;
-}
+import './styled.less';
 
 const LogInComponent = () => {
   const history = useHistory();
@@ -34,9 +28,11 @@ const LogInComponent = () => {
   };
 
   const validation: {[key: string]: Rule[]} = {
-    username: [{required: true, message: 'Please input your username!'}],
-    password: [{required: true, message: 'Please input your password!'}],
+    username: [{required: true, message: 'Please input email code verify!'}],
+    tfa: [{required: true, message: 'Please input 2FA!'}],
   };
+
+  const _sendCode = () => {};
 
   return (
     <div className="main">
@@ -44,11 +40,11 @@ const LogInComponent = () => {
         <img src={process.env.PUBLIC_URL + '/logo512.png'} style={{textAlign: 'center'}} />
       </Form.Item>
       <Form name="basic" layout="vertical" initialValues={{remember: false}} onFinish={onFinish}>
-        <Form.Item label="Username" name="username" rules={validation.username}>
-          <Input autoComplete="off" autoFocus={true} />
+        <Form.Item label="Email Code" name="username" rules={validation.username}>
+          <Search allowClear={true} enterButton="Send" onSearch={_sendCode} />
         </Form.Item>
-        <Form.Item label="Password" name="password" rules={validation.password}>
-          <Input.Password autoComplete="off" />
+        <Form.Item label="2FA" name="tfa" rules={validation.tfa}>
+          <Input autoComplete="off" maxLength={6} />
         </Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
           Login

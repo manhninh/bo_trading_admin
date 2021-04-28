@@ -6,7 +6,7 @@ import React, {Suspense} from 'react';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import NavigationComponent from 'routers';
-import './App.css';
+import './App.less';
 
 const App = () => {
   return (
