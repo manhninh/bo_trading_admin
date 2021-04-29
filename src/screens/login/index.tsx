@@ -28,7 +28,8 @@ const LogInComponent = () => {
   };
 
   const validation: {[key: string]: Rule[]} = {
-    username: [{required: true, message: 'Please input email code verify!'}],
+    username: [{required: true, message: 'Please input email!'}],
+    password: [{required: true, message: 'Please input code verify!'}],
     tfa: [{required: true, message: 'Please input 2FA!'}],
   };
 
@@ -37,14 +38,17 @@ const LogInComponent = () => {
   return (
     <div className="main">
       <Form.Item>
-        <img src={process.env.PUBLIC_URL + '/logo512.png'} style={{textAlign: 'center'}} />
+        <img src={process.env.PUBLIC_URL + '/logo512.png'} />
       </Form.Item>
       <Form name="basic" layout="vertical" initialValues={{remember: false}} onFinish={onFinish}>
-        <Form.Item label="Email Code" name="username" rules={validation.username}>
+        <Form.Item label="Email" name="username" rules={validation.tfa}>
+          <Input autoComplete="off" autoFocus={true} allowClear={true} />
+        </Form.Item>
+        <Form.Item label="Verify Code" name="password" rules={validation.username}>
           <Search allowClear={true} enterButton="Send" onSearch={_sendCode} />
         </Form.Item>
         <Form.Item label="2FA" name="tfa" rules={validation.tfa}>
-          <Input autoComplete="off" maxLength={6} />
+          <Input autoComplete="off" allowClear={true} maxLength={6} />
         </Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
           Login
