@@ -22,7 +22,7 @@ const ContainerLayout = (props: Props) => {
   };
 
   return (
-    <Layout style={{minHeight: '100vh'}}>
+    <Layout>
       <Sider
         style={{
           overflow: 'auto',
@@ -36,7 +36,7 @@ const ContainerLayout = (props: Props) => {
         <div className="logo">
           <img src={process.env.PUBLIC_URL + '/favicon.ico'} />
         </div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+        <Menu defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="dashboard" icon={<PieChartOutlined />}>
             Dashboard
           </Menu.Item>
