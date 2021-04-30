@@ -1,70 +1,57 @@
-import {
-  PieChartOutlined,
-  SecurityScanOutlined,
-  SettingOutlined,
-  SwapOutlined,
-  UsergroupAddOutlined,
-  WalletOutlined,
-} from '@ant-design/icons';
-import {Layout, Menu} from 'antd';
-import {Content} from 'antd/lib/layout/layout';
-import Sider from 'antd/lib/layout/Sider';
-import SubMenu from 'antd/lib/menu/SubMenu';
-import React, {useState} from 'react';
-import {Props} from './propState';
-import './styled.css';
+import ProLayout, {MenuDataItem, PageHeaderWrapper} from '@ant-design/pro-layout';
+import {HeaderViewProps} from '@ant-design/pro-layout/lib/Header';
+import vi_VN from 'antd/es/locale/vi_VN';
+import {Route} from 'antd/lib/breadcrumb/Breadcrumb';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Link} from 'react-router-dom';
+import {routeManager} from '../routes';
+import RightContent from './RightContent';
 
-const ContainerLayout = (props: Props) => {
-  const [collapsed, setCollapsed] = useState(false);
+const Layout = (props: any) => {
+  const {t, i18n} = useTranslation();
+  const [state, setState] = useState({
+    locale: vi_VN,
+    userInfor: null,
+  });
 
-  const onCollapse = (collapsed) => {
-    setCollapsed(collapsed);
+  useEffect(() => {
+    // const userInfor = JSON.parse(localStorage.getItem(system.USER_INFO)?.toString() || '');
+    // setState((state) => ({ ...state, userInfor }));
+  }, []);
+
+  const menuItemRender = (menuItemProps: MenuDataItem, defaultDom: React.ReactNode) => {
+    return <Link to={menuItemProps.path || ''}>{defaultDom}</Link>;
   };
 
+  const convertRouter = () => {
+    const routers = routeManager(t);
+    return routers;
+  };
+
+  const rightContentRender = (headerProps: HeaderViewProps) => <RightContent />;
+
+  const itemRender = (route: Route, _params: any, routes: Route[], paths: string[]) =>
+    routes.indexOf(route) === 0 ? (
+      <Link to={`/${paths[0]}`}>{route.breadcrumbName}</Link>
+    ) : (
+      <span>{route.breadcrumbName}</span>
+    );
+
   return (
-    <Layout>
-      <Sider
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
-        }}
-        collapsible
-        collapsed={collapsed}
-        onCollapse={onCollapse}>
-        <div className="logo">
-          <img src={process.env.PUBLIC_URL + '/favicon.ico'} />
-        </div>
-        <Menu defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="dashboard" icon={<PieChartOutlined />}>
-            Dashboard
-          </Menu.Item>
-          <Menu.Item key="protect_trading" icon={<SecurityScanOutlined />}>
-            Protect trading
-          </Menu.Item>
-          <Menu.Item key="user" icon={<UsergroupAddOutlined />}>
-            User
-          </Menu.Item>
-          <SubMenu key="wallet" icon={<WalletOutlined />} title="Wallet">
-            <Menu.Item key="deposit">Deposit</Menu.Item>
-            <Menu.Item key="withraw">Withdraw</Menu.Item>
-          </SubMenu>
-          <Menu.Item key="user" icon={<SwapOutlined />}>
-            Tranfer History
-          </Menu.Item>
-          <Menu.Item key="user" icon={<SettingOutlined />}>
-            Settings
-          </Menu.Item>
-        </Menu>
-      </Sider>
-      <Layout className="site-layout">
-        <Content>
-          <div className="site-layout-background">{props.children}</div>
-        </Content>
-      </Layout>
-    </Layout>
+    <ProLayout
+      title="Finimix Admin"
+      logo={<img src={process.env.PUBLIC_URL + '/favicon.ico'} />}
+      contentWidth="Fluid"
+      fixedHeader={true}
+      fixSiderbar={true}
+      route={convertRouter()}
+      rightContentRender={rightContentRender}
+      menuItemRender={menuItemRender}
+      itemRender={itemRender}>
+      <PageHeaderWrapper>{props.children}</PageHeaderWrapper>
+    </ProLayout>
   );
 };
 
-export default React.memo(ContainerLayout);
+export default Layout;

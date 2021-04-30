@@ -26,6 +26,7 @@
     ]
   },
   "dependencies": {
+    "@ant-design/pro-layout": "^6.17.1",
     "@craco/craco": "^6.1.2",
     "@hookform/resolvers": "^2.4.0",
     "@reduxjs/toolkit": "^1.5.1",
