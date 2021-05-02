@@ -1,31 +1,18 @@
 import ProLayout, {MenuDataItem, PageHeaderWrapper} from '@ant-design/pro-layout';
 import {HeaderViewProps} from '@ant-design/pro-layout/lib/Header';
-import vi_VN from 'antd/es/locale/vi_VN';
 import {Route} from 'antd/lib/breadcrumb/Breadcrumb';
-import React, {useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import React from 'react';
 import {Link} from 'react-router-dom';
-import {routeManager} from '../routes';
+import {routeManager} from 'routers/config';
 import RightContent from './RightContent';
 
 const Layout = (props: any) => {
-  const {t, i18n} = useTranslation();
-  const [state, setState] = useState({
-    locale: vi_VN,
-    userInfor: null,
-  });
-
-  useEffect(() => {
-    // const userInfor = JSON.parse(localStorage.getItem(system.USER_INFO)?.toString() || '');
-    // setState((state) => ({ ...state, userInfor }));
-  }, []);
-
   const menuItemRender = (menuItemProps: MenuDataItem, defaultDom: React.ReactNode) => {
     return <Link to={menuItemProps.path || ''}>{defaultDom}</Link>;
   };
 
   const convertRouter = () => {
-    const routers = routeManager(t);
+    const routers = routeManager();
     return routers;
   };
 
@@ -44,12 +31,16 @@ const Layout = (props: any) => {
       logo={<img src={process.env.PUBLIC_URL + '/favicon.ico'} />}
       contentWidth="Fluid"
       fixedHeader={true}
+      layout="mix"
+      navTheme="light"
+      headerHeight={60}
       fixSiderbar={true}
       route={convertRouter()}
       rightContentRender={rightContentRender}
       menuItemRender={menuItemRender}
-      itemRender={itemRender}>
-      <PageHeaderWrapper>{props.children}</PageHeaderWrapper>
+      itemRender={itemRender}
+      breadcrumbRender={false}>
+      <PageHeaderWrapper fixedHeader={true}>{props.children}</PageHeaderWrapper>
     </ProLayout>
   );
 };

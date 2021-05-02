@@ -7,7 +7,7 @@ const RightContent = () => {
   const history = useHistory();
   return (
     <div className="right">
-      <Button type="primary" icon={<PoweroffOutlined />} />
+      <Button size="large" type="primary" icon={<PoweroffOutlined />}>Đăng xuất</Button>
     </div>
   );
 };

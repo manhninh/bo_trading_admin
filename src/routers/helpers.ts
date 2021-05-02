@@ -13,5 +13,10 @@ export const stateConditionString = (state: AuthState) => {
 
 export enum ROUTE_PATH {
   LOGIN = '/login',
-  HOME = '/home',
+  HOME = '/dashboard',
+  BAOVESAN = '/baovesan',
+  TAIKHOAN_DANHSACH = '/taikhoan/danhsach',
+  NAPTIEN = '/taikhoan/naptien',
+  RUTTIEN = '/taikhoan/ruttien',
+  BAOMAT = '/caidat/baomat',
 }
