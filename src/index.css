@@ -6,26 +6,38 @@ body,
   padding: 0;
 }
 
-.text-center{
-  text-align: center;
-}
-
-.mb-0-75{
-  margin-bottom: 0.75rem !important;
-}
-
-.mb-0{
-  margin-bottom: 0 !important;
-}
-
-.ant-form-item{
+.ant-form-item {
   margin-bottom: 12px !important;
 }
 
-.ant-page-header{
-  padding: 4px 24px !important;
+.ant-page-header {
+  padding: 4px 12px !important;
 }
 
-.ant-pro-basicLayout-content{
+.ant-pro-page-container-children-content {
   margin: 12px !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-0-75 {
+  margin-bottom: 0.75rem !important;
+}
+
+.mb-1 {
+  margin-bottom: 1rem !important;
+}
+
+.mb-1-5 {
+  margin-bottom: 1.5rem !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.w-60 {
+  width: 60px;
 }

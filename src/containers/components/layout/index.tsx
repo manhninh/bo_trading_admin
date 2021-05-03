@@ -28,11 +28,11 @@ const Layout = (props: any) => {
   return (
     <ProLayout
       title="Finimix Admin"
-      logo={<img src={process.env.PUBLIC_URL + '/favicon.ico'} />}
+      logo={<img src={process.env.PUBLIC_URL + '/favicon.ico'} alt="..." />}
       contentWidth="Fluid"
       fixedHeader={true}
       layout="mix"
-      navTheme="light"
+      navTheme="dark"
       headerHeight={60}
       fixSiderbar={true}
       route={convertRouter()}

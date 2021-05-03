@@ -1,11 +1,11 @@
-import {Table, Tag, Space, Row, Col, Card, Statistic, Radio, Divider, Form, InputNumber, Button} from 'antd';
+import {blue, green, red} from '@ant-design/colors';
+import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
+import {Button, Card, Col, Divider, Form, InputNumber, Radio, Row, Statistic, Table} from 'antd';
+import Title from 'antd/lib/typography/Title';
 import ContainerLayout from 'containers/components/layout';
 import React from 'react';
-import {green, red, blue} from '@ant-design/colors';
-import {ArrowUpOutlined, ArrowDownOutlined} from '@ant-design/icons';
-import {ColumnsType} from 'antd/lib/table';
-import {formatter2} from 'utils/formatter';
-import Title from 'antd/lib/typography/Title';
+import KhoiLuongMuaBan from './KhoiLuongMuaBan';
+import SocketProvider from './socketContext';
 
 interface ColumnsProted {
   id: number;
@@ -100,64 +100,9 @@ const BaoVeSanComponent = () => {
         </Row>
       </Card>
       <Row gutter={20}>
-        <Col className="gutter-row" md={8} sm={24} xs={24}>
-          <Table<ColumnsProted>
-            size="small"
-            bordered={true}
-            dataSource={data}
-            pagination={false}
-            className="mb-0-75"
-            title={() => (
-              <Title className="mb-0" style={{color: green.primary}} level={4}>
-                Khối lượng mua
-              </Title>
-            )}>
-            <Table.Column<ColumnsProted> key="id" title="No" dataIndex="id" width={50} align="right" />
-            <Table.Column<ColumnsProted>
-              key="name"
-              title="Tài khoản"
-              dataIndex="name"
-              render={(text) => <a>{text}</a>}
-            />
-            <Table.Column<ColumnsProted>
-              key="amount"
-              title="Số tiền"
-              dataIndex="amount"
-              width={100}
-              align="right"
-              render={(text) => <span>{formatter2.format(text)}</span>}
-            />
-          </Table>
-        </Col>
-        <Col className="gutter-row" md={8} sm={24} xs={24}>
-          <Table<ColumnsProted>
-            size="small"
-            bordered={true}
-            dataSource={data}
-            pagination={false}
-            className="mb-0-75"
-            title={() => (
-              <Title className="mb-0" style={{color: red.primary}} level={4}>
-                Khối lượng bán
-              </Title>
-            )}>
-            <Table.Column<ColumnsProted> key="id" title="No" dataIndex="id" width={50} align="right" />
-            <Table.Column<ColumnsProted>
-              key="name"
-              title="Tài khoản"
-              dataIndex="name"
-              render={(text) => <a>{text}</a>}
-            />
-            <Table.Column<ColumnsProted>
-              key="amount"
-              title="Số tiền"
-              dataIndex="amount"
-              width={100}
-              align="right"
-              render={(text) => <span>{formatter2.format(text)}</span>}
-            />
-          </Table>
-        </Col>
+        <SocketProvider>
+          <KhoiLuongMuaBan />
+        </SocketProvider>
         <Col className="gutter-row" md={8} sm={24} xs={24}>
           <Table<ColumnsProted>
             size="small"

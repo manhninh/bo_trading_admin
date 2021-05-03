@@ -1,4 +1,4 @@
-import {Button, Form, Input} from 'antd';
+import {Button, Form, Input, message} from 'antd';
 import Search from 'antd/lib/input/Search';
 import useError from 'containers/hooks/errorProvider/useError';
 import {Rule, Store} from 'rc-field-form/lib/interface';
@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {ROUTE_PATH} from 'routers/helpers';
 import {fetchLogin} from 'routers/redux/thunks';
+import {fetchSendCodeToEmailInfor} from './services';
 import './styled.less';
 
 const LogInComponent = () => {
@@ -28,24 +29,34 @@ const LogInComponent = () => {
   };
 
   const validation: {[key: string]: Rule[]} = {
-    username: [{required: true, message: 'Please input email!'}],
-    password: [{required: true, message: 'Please input code verify!'}],
-    tfa: [{required: true, message: 'Please input 2FA!'}],
+    username: [{required: true, message: 'Nhập email!'}],
+    password: [{required: true, message: 'Nhập code gửi đến email!'}],
+    tfa: [{required: true, message: 'Nhập code 2FA!'}],
   };
 
-  const _sendCode = () => {};
+  const _sendCode = () => {
+    setLoading(true);
+    try {
+      fetchSendCodeToEmailInfor();
+      message.success('Kiểm tra email của bạn');
+    } catch (error) {
+      addError(error, 'Gửi mã đến email thất bại!');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="main">
       <Form.Item>
-        <img src={process.env.PUBLIC_URL + '/logo512.png'} />
+        <img src={process.env.PUBLIC_URL + '/logo512.png'} alt="..." />
       </Form.Item>
       <Form name="basic" layout="vertical" initialValues={{remember: false}} onFinish={onFinish}>
         <Form.Item label="Email" name="username" rules={validation.tfa}>
           <Input autoComplete="off" autoFocus={true} allowClear={true} />
         </Form.Item>
         <Form.Item label="Verify Code" name="password" rules={validation.username}>
-          <Search allowClear={true} enterButton="Send" onSearch={_sendCode} />
+          <Search allowClear={true} enterButton="Send" maxLength={6} loading={loading} onSearch={_sendCode} />
         </Form.Item>
         <Form.Item label="2FA" name="tfa" rules={validation.tfa}>
           <Input autoComplete="off" allowClear={true} maxLength={6} />
