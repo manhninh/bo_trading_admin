@@ -1,10 +1,9 @@
-import {blue, green, red} from '@ant-design/colors';
-import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
-import {Button, Card, Col, Divider, Form, InputNumber, Radio, Row, Statistic, Table} from 'antd';
+import {Button, Card, Col, Divider, Form, InputNumber, Radio, Row, Table} from 'antd';
 import Title from 'antd/lib/typography/Title';
 import ContainerLayout from 'containers/components/layout';
 import React from 'react';
-import KhoiLuongMuaBan from './KhoiLuongMuaBan';
+import KhoiLuongBan from './KhoiLuongBan';
+import KhoiLuongMua from './KhoiLuongMua';
 import SocketProvider from './socketContext';
 
 interface ColumnsProted {
@@ -36,46 +35,23 @@ const BaoVeSanComponent = () => {
     <ContainerLayout>
       <Card size="small" className="mb-0-75">
         <Row gutter={20}>
-          <Col className="gutter-row text-center" sm={8} xs={24}>
-            <Statistic
-              title="Tổng khối lượng mua"
-              value={1128}
-              valueStyle={{color: green.primary}}
-              prefix={<ArrowUpOutlined />}
-              suffix="USDF"
-            />
-          </Col>
-          <Col className="gutter-row text-center" sm={8} xs={24}>
-            <Statistic
-              title="Tổng khối lượng bán"
-              value={1128}
-              valueStyle={{color: red.primary}}
-              prefix={<ArrowDownOutlined />}
-              suffix="USDF"
-            />
-          </Col>
-          <Col className="gutter-row text-center" sm={8} xs={24}>
-            <Statistic title="Chênh lệch" value={1128} valueStyle={{color: blue.primary}} suffix="USDF" />
-          </Col>
-        </Row>
-        <Row gutter={20}>
           <Col className="gutter-row" sm={12} xs={24}>
             <Divider>Tự động</Divider>
             <Form labelCol={{span: 8}}>
               <Form.Item label="Mức 1 -> 10$ - 50$" labelAlign="left">
-                <Form.Item name="input-number" noStyle>
+                <Form.Item name="level1" noStyle>
                   <InputNumber min={1} max={10} />
                 </Form.Item>
                 <span className="ant-form-text"> lệnh kích hoạt 1 lần bảo vệ sàn</span>
               </Form.Item>
               <Form.Item label="Mức 2 -> 50$ - 200$" labelAlign="left">
-                <Form.Item name="input-number" noStyle>
+                <Form.Item name="level2" noStyle>
                   <InputNumber min={1} max={10} />
                 </Form.Item>
                 <span className="ant-form-text"> lệnh kích hoạt 1 lần bảo vệ sàn</span>
               </Form.Item>
               <Form.Item label="Mức 3 -> 200$ - 1000$" labelAlign="left">
-                <Form.Item name="input-number" noStyle>
+                <Form.Item name="level3" noStyle>
                   <InputNumber min={1} max={10} />
                 </Form.Item>
                 <span className="ant-form-text"> lệnh kích hoạt 1 lần bảo vệ sàn</span>
@@ -101,7 +77,12 @@ const BaoVeSanComponent = () => {
       </Card>
       <Row gutter={20}>
         <SocketProvider>
-          <KhoiLuongMuaBan />
+          <Col className="gutter-row" md={8} sm={24} xs={24}>
+            <KhoiLuongMua />
+          </Col>
+          <Col className="gutter-row" md={8} sm={24} xs={24}>
+            <KhoiLuongBan />
+          </Col>
         </SocketProvider>
         <Col className="gutter-row" md={8} sm={24} xs={24}>
           <Table<ColumnsProted>
@@ -114,9 +95,14 @@ const BaoVeSanComponent = () => {
               <Title className="mb-0" level={4}>
                 Lịch sử kích hoạt bảo vệ sàn
               </Title>
-            )}>
+            )}
+            showHeader={false}>
             <Table.Column<ColumnsProted> key="id" title="No" dataIndex="id" width={50} align="right" />
-            <Table.Column<ColumnsProted> key="description" title="Nội dung" dataIndex="description" />
+            <Table.Column<ColumnsProted>
+              key="description"
+              title="Lịch sử kích hoạt bảo vệ sàn"
+              dataIndex="description"
+            />
           </Table>
         </Col>
       </Row>

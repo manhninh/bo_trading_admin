@@ -1,7 +1,9 @@
 import authState from 'routers/redux/slice';
+import baovesanState from 'screens/baovesan/redux/slice';
 
 const rootReducers = {
-    authState,
+  authState,
+  baovesanState,
 };
 
 export default rootReducers;
