@@ -14,6 +14,7 @@ const ThuCongComponent = () => {
 
   useEffect(() => {
     console.log(timeTick, 'timeTick');
+    if (timeTick === 0) setProtectStatus(PROTECT_STATUS.NORMAL);
     if (timeTick >= 30 && timeTick < 50) setDisabled(false);
     else setDisabled(true);
   }, [timeTick]);

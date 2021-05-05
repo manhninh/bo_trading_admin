@@ -54,9 +54,7 @@ const RightContent = () => {
 
   return (
     <div className="right">
-      <Button size="large" type="primary" icon={<PoweroffOutlined />} onClick={logOut}>
-        Đăng xuất
-      </Button>
+      <Button size="large" type="primary" icon={<PoweroffOutlined />} onClick={logOut}/>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import {signOut} from 'routers/redux/slice';
 import {Socket} from 'socket.io-client';
-import {ContextType} from './context';
+import {ContextType, ProtectLog} from './context';
 import {EVENTS, ROOM} from './socketConfig';
 
 export const calculatorEvents = ({setValue, socketCalculator, dispatch}) => {

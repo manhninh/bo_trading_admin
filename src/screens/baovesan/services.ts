@@ -11,3 +11,12 @@ export const postChangeProtectStatus = async (protectStatus: PROTECT_STATUS) => 
     throw error;
   }
 };
+
+export const getProtectLogs = async () => {
+  try {
+    const result = await configServices.getService('admins/get-protect-logs');
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};

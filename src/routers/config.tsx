@@ -65,6 +65,10 @@ export const routeManager = (): RouteTypes => ({
           path: '/caidat/baomat',
           name: 'Bảo mật',
         },
+        {
+          path: '/caidat/baovesan',
+          name: 'Bảo vệ sàn tự động',
+        },
       ],
     },
   ],

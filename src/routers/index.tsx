@@ -10,6 +10,7 @@ const TaiKhoan = lazy(() => import('screens/taikhoan'));
 const NapTien = lazy(() => import('screens/naptien'));
 const RutTien = lazy(() => import('screens/ruttien'));
 const BaoMat = lazy(() => import('screens/caidat/baomat'));
+const ThietLapBvsTuDong = lazy(() => import('screens/caidat/baovesan'));
 const NotFound = lazy(() => import('containers/components/exceptions/404'));
 
 const NavigationComponent = () => {
@@ -23,6 +24,7 @@ const NavigationComponent = () => {
       <PrivateRoute path={ROUTE_PATH.NAPTIEN} comp={NapTien} />
       <PrivateRoute path={ROUTE_PATH.RUTTIEN} comp={RutTien} />
       <PrivateRoute path={ROUTE_PATH.BAOMAT} comp={BaoMat} />
+      <PrivateRoute path={ROUTE_PATH.THIETLAP_BVS_TUDONG} comp={ThietLapBvsTuDong} />
       <Route component={NotFound} />
     </Switch>
   );

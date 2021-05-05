@@ -3,16 +3,17 @@ import {LOCAL_STORE} from 'constants/system';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import socketIOClient, {Socket} from 'socket.io-client';
-import SocketContext, {Order} from './context';
+import SocketContext, {ContextType, Order, ProtectLog} from './context';
 import {calculatorEvents, calculatorSocketDisconnect} from './events';
 
 const SocketProvider = (props: any) => {
   const dispatch = useDispatch();
   const socketCalculatorRef = useRef<Socket | null>(null);
 
-  const [value, setValue] = useState({
+  const [value, setValue] = useState<ContextType>({
     orders_buy: new Array<Order>(),
     orders_sell: new Array<Order>(),
+    protectLog: null,
   });
 
   //socket calculator
