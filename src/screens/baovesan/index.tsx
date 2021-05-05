@@ -1,10 +1,12 @@
-import {Button, Card, Col, Divider, Form, InputNumber, Radio, Row, Table} from 'antd';
+import {Button, Card, Col, Divider, Form, InputNumber, Row, Table} from 'antd';
 import Title from 'antd/lib/typography/Title';
 import ContainerLayout from 'containers/components/layout';
 import React from 'react';
 import KhoiLuongBan from './KhoiLuongBan';
 import KhoiLuongMua from './KhoiLuongMua';
-import SocketProvider from './socketContext';
+import SocketCalculator from './socketCalculator';
+import SocketCandlestick from './socketCandlestick';
+import ThuCong from './ThuCong';
 
 interface ColumnsProted {
   id: number;
@@ -30,6 +32,8 @@ const BaoVeSanComponent = () => {
       amount: 320000,
     },
   ];
+
+  console.log('baovesan');
 
   return (
     <ContainerLayout>
@@ -63,27 +67,23 @@ const BaoVeSanComponent = () => {
               </Form.Item>
             </Form>
           </Col>
-          <Col className="gutter-row" sm={12} xs={24}>
-            <Divider>Thủ công</Divider>
-            <div className="text-center">
-              <Radio.Group value="auto">
-                <Radio.Button value="buy_win">Mua thắng</Radio.Button>
-                <Radio.Button value="sell_win">Bán thắng</Radio.Button>
-                <Radio.Button value="auto">Tự động</Radio.Button>
-              </Radio.Group>
-            </div>
-          </Col>
+          <SocketCandlestick>
+            <Col className="gutter-row" sm={12} xs={24}>
+              <Divider>Thủ công</Divider>
+              <ThuCong />
+            </Col>
+          </SocketCandlestick>
         </Row>
       </Card>
       <Row gutter={20}>
-        <SocketProvider>
+        <SocketCalculator>
           <Col className="gutter-row" md={8} sm={24} xs={24}>
             <KhoiLuongMua />
           </Col>
           <Col className="gutter-row" md={8} sm={24} xs={24}>
             <KhoiLuongBan />
           </Col>
-        </SocketProvider>
+        </SocketCalculator>
         <Col className="gutter-row" md={8} sm={24} xs={24}>
           <Table<ColumnsProted>
             size="small"

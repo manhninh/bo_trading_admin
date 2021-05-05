@@ -3,35 +3,35 @@ import {LOCAL_STORE} from 'constants/system';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import socketIOClient, {Socket} from 'socket.io-client';
-import {calculatorEvents, calculatorSocketDisconnect} from './calculatorEvents';
-import SocketContext, {Order} from './context';
+import SocketContext from './context';
+import {candlestickEvents, candlestickSocketDisconnect} from './events';
 
 const SocketProvider = (props: any) => {
   const dispatch = useDispatch();
-  const socketCalculatorRef = useRef<Socket | null>(null);
+  const socketCandlestickRef = useRef<Socket | null>(null);
 
   const [value, setValue] = useState({
-    orders_buy: new Array<Order>(),
-    orders_sell: new Array<Order>(),
+    timeTick: 0,
   });
 
-  //socket calculator
+  // scoket nến
   useEffect(() => {
-    if (!socketCalculatorRef.current)
-      socketCalculatorRef.current = socketIOClient(config.WS_CALCULATOR?.toString() || '', {
+    if (!socketCandlestickRef.current) {
+      socketCandlestickRef.current = socketIOClient(config.WS_CANDLESTICK?.toString() || '', {
         query: {
           token: localStorage.getItem(LOCAL_STORE.TOKEN)?.toString().split(' ')[1] || '',
         },
       });
-    calculatorEvents({
-      setValue,
-      socketCalculator: socketCalculatorRef?.current,
-      dispatch,
-    });
+      candlestickEvents({
+        setValue,
+        socketCandlestick: socketCandlestickRef?.current,
+        dispatch,
+      });
+    }
     return () => {
-      calculatorSocketDisconnect(socketCalculatorRef?.current);
+      candlestickSocketDisconnect(socketCandlestickRef?.current);
     };
-  }, [calculatorEvents]);
+  }, [candlestickEvents]);
 
   return <SocketContext.Provider value={value}>{props.children}</SocketContext.Provider>;
 };

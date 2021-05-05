@@ -4,7 +4,7 @@ import {Statistic, Table} from 'antd';
 import Title from 'antd/lib/typography/Title';
 import React, {useContext, useEffect, useState} from 'react';
 import {formatter2} from 'utils/formatter';
-import SocketContext, {ContextType} from './socketContext/context';
+import SocketContext, {ContextType} from './socketCalculator/context';
 
 interface ColumnsProted {
   amount_order: number;

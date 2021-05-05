@@ -29,7 +29,7 @@ const Layout = (props: any) => {
     <ProLayout
       title="Finimix Admin"
       logo={<img src={process.env.PUBLIC_URL + '/favicon.ico'} alt="..." />}
-      contentWidth="Fluid"
+      contentWidth="Fixed"
       fixedHeader={true}
       layout="mix"
       navTheme="dark"

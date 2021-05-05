@@ -31,3 +31,9 @@ export enum TYPE_ORDER {
   BUY = 1,
   SELL = 2,
 }
+
+export enum PROTECT_STATUS {
+  NORMAL = 0,
+  BUY_WIN = 1,
+  SELL_WIN = -1,
+}

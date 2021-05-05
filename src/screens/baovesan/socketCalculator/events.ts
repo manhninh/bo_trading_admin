@@ -28,5 +28,7 @@ export const calculatorEvents = ({setValue, socketCalculator, dispatch}) => {
 
 export const calculatorSocketDisconnect = (socketCalculator: Socket | null) => {
   if (!socketCalculator) return;
+  socketCalculator.off(EVENTS.ORDER_SELL_QUEUE);
+  socketCalculator.off(EVENTS.ORDER_BUY_QUEUE);
   socketCalculator.disconnect();
 };
