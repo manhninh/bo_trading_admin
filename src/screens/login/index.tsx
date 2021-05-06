@@ -1,4 +1,4 @@
-import {Button, Form, Input, message} from 'antd';
+import {Button, Form, FormInstance, Input, message} from 'antd';
 import Search from 'antd/lib/input/Search';
 import useError from 'containers/hooks/errorProvider/useError';
 import {Rule, Store} from 'rc-field-form/lib/interface';
@@ -11,6 +11,7 @@ import {fetchSendCodeToEmailInfor} from './services';
 import './styled.less';
 
 const LogInComponent = () => {
+  const formRef = React.createRef<FormInstance>();
   const history = useHistory();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,8 @@ const LogInComponent = () => {
   const _sendCode = () => {
     setLoading(true);
     try {
-      fetchSendCodeToEmailInfor();
+      const email = formRef.current?.getFieldValue('username');
+      fetchSendCodeToEmailInfor(email);
       message.success('Kiểm tra email của bạn');
     } catch (error) {
       addError(error, 'Gửi mã đến email thất bại!');
@@ -51,7 +53,7 @@ const LogInComponent = () => {
       <Form.Item>
         <img src={process.env.PUBLIC_URL + '/logo512.png'} alt="..." />
       </Form.Item>
-      <Form name="basic" layout="vertical" initialValues={{remember: false}} onFinish={onFinish}>
+      <Form ref={formRef} name="basic" layout="vertical" initialValues={{remember: false}} onFinish={onFinish}>
         <Form.Item label="Email" name="username" rules={validation.tfa}>
           <Input autoComplete="off" autoFocus={true} allowClear={true} />
         </Form.Item>
