@@ -41,8 +41,6 @@ const LichSuComponent = () => {
     }
   };
 
-  console.log('LichSu');
-
   return (
     <Table<ColumnsProted>
       size="small"
@@ -65,7 +63,7 @@ const LichSuComponent = () => {
         dataIndex="createdAt"
         width={80}
         align="center"
-        render={(text) => <span>{moment(text).format('HH:mm:ss')}</span>}
+        render={(text) => <span>{moment(text).format('HH:mm')}</span>}
       />
       <Table.Column<ColumnsProted>
         key="type"

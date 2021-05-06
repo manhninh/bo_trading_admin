@@ -13,7 +13,6 @@ const ThuCongComponent = () => {
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
-    console.log(timeTick, 'timeTick');
     if (timeTick === 0) setProtectStatus(PROTECT_STATUS.NORMAL);
     if (timeTick >= 30 && timeTick < 50) setDisabled(false);
     else setDisabled(true);
@@ -34,14 +33,12 @@ const ThuCongComponent = () => {
 
   return (
     <>
-      <div className="text-center mb-1">
-        <Radio.Group value={protectStatus} buttonStyle="solid" onChange={_changeProtectStatus} disabled={disabled}>
+      <div className="text-center mb-0-75">
+        <Radio.Group size="large" className="mr-1 mb-1" value={protectStatus} buttonStyle="solid" onChange={_changeProtectStatus} disabled={disabled}>
           <Radio.Button value={PROTECT_STATUS.BUY_WIN}>Mua thắng</Radio.Button>
           <Radio.Button value={PROTECT_STATUS.SELL_WIN}>Bán thắng</Radio.Button>
           <Radio.Button value={PROTECT_STATUS.NORMAL}>Tự động</Radio.Button>
         </Radio.Group>
-      </div>
-      <div className="text-center">
         <CountDownComponent />
       </div>
     </>

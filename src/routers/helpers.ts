@@ -20,4 +20,6 @@ export enum ROUTE_PATH {
   RUTTIEN = '/taikhoan/ruttien',
   BAOMAT = '/caidat/baomat',
   THIETLAP_BVS_TUDONG = '/caidat/baovesan',
+  THONGKE_LICHSUCHUYENTIEN = '/thongke/lichsuchuyentien',
+  THONGKE_LICHSUGIAODICH = '/thongke/giaodichtrongngay',
 }

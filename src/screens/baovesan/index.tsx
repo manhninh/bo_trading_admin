@@ -12,16 +12,16 @@ import ThuCong from './ThuCong';
 const BaoVeSanComponent = () => {
   return (
     <ContainerLayout>
-      <Row gutter={20}>
+      <Row gutter={12}>
         <Col className="gutter-row" md={16} sm={24} xs={24}>
           <Card size="small" className="mb-0-75">
             <SocketCandlestick>
-              <Divider>Thủ công</Divider>
+              <Divider className="mb-0-75">Thủ công</Divider>
               <ThuCong />
             </SocketCandlestick>
           </Card>
           <SocketCalculator>
-            <Row gutter={20}>
+            <Row gutter={12}>
               <Col className="gutter-row" md={12} sm={24} xs={24}>
                 <KhoiLuongMua />
               </Col>

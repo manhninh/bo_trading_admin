@@ -5,6 +5,7 @@ import {
   SettingOutlined,
   SwapOutlined,
   UsergroupAddOutlined,
+  FormOutlined,
 } from '@ant-design/icons';
 
 export interface RouteTypes {
@@ -52,9 +53,19 @@ export const routeManager = (): RouteTypes => ({
       ],
     },
     {
-      path: '/lichsuchuyentien',
-      name: 'Lịch sử chuyển tiền',
-      icon: <SwapOutlined />,
+      path: '/thongke',
+      name: 'Thống kê',
+      icon: <FormOutlined />,
+      children: [
+        {
+          path: '/thongke/lichsuchuyentien',
+          name: 'Lịch sử chuyển tiền',
+        },
+        {
+          path: '/thongke/giaodichtrongngay',
+          name: 'Giao dịch trong ngày',
+        },
+      ],
     },
     {
       path: '/caidat',
