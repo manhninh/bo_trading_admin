@@ -55,16 +55,16 @@ const LogInComponent = () => {
       </Form.Item>
       <Form ref={formRef} name="basic" layout="vertical" initialValues={{remember: false}} onFinish={onFinish}>
         <Form.Item label="Email" name="username" rules={validation.tfa}>
-          <Input autoComplete="off" autoFocus={true} allowClear={true} />
+          <Search autoFocus={true} allowClear={true} enterButton="Gửi mã" loading={loading} onSearch={_sendCode} />
         </Form.Item>
         <Form.Item label="Verify Code" name="password" rules={validation.username}>
-          <Search allowClear={true} enterButton="Send" maxLength={6} loading={loading} onSearch={_sendCode} />
+          <Input autoComplete="off" allowClear={true} />
         </Form.Item>
         <Form.Item label="2FA" name="tfa" rules={validation.tfa}>
           <Input autoComplete="off" allowClear={true} maxLength={6} />
         </Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
-          Login
+          Đăng nhập
         </Button>
       </Form>
     </div>
