@@ -1,39 +1,28 @@
-import {Button, Card, Col, Divider, Form, InputNumber, Row, Table} from 'antd';
+import {Table} from 'antd';
 import Title from 'antd/lib/typography/Title';
-import ContainerLayout from 'containers/components/layout';
-import React, {useContext, useEffect, useState} from 'react';
-import KhoiLuongBan from './KhoiLuongBan';
-import KhoiLuongMua from './KhoiLuongMua';
-import SocketCalculator from './socketCalculator';
-import SocketContext, {ContextType} from './socketCalculator/context';
-import SocketCandlestick from './socketCandlestick';
-import ThuCong from './ThuCong';
+import React, {useEffect, useState} from 'react';
 import {formatter2} from 'utils/formatter';
-import {getProtectLogs} from './services';
 import useError from 'containers/hooks/errorProvider/useError';
 import moment from 'moment';
-
-interface ColumnsProted {
-  type: number;
-  diff: number;
-  level: number;
-  createdAt: Date;
-}
+import {getProtectLogs} from './redux/thunks';
+import {useDispatch} from 'react-redux';
+import {useAppSelector} from 'boot/configureStore';
+import { ColumnsProted } from './model';
 
 const LichSuComponent = () => {
-  const [protectLogs, setProtectLogs] = useState<ColumnsProted[]>([]);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const {addError} = useError();
+  const [loading, setLoading] = useState(false);
+  const protectLogs = useAppSelector((state) => state.baovesanState.protectLogs);
 
   useEffect(() => {
-    losdLogs();
+    loadLogs();
   }, []);
 
-  const losdLogs = async () => {
+  const loadLogs = async () => {
     setLoading(true);
     try {
-      const logs = await getProtectLogs();
-      if (logs && logs.data) setProtectLogs(logs.data);
+      await dispatch(getProtectLogs());
     } catch (error) {
       addError(error, 'Tải lịch sử bảo vệ sàn thất bại!');
     } finally {
@@ -77,8 +66,10 @@ const LichSuComponent = () => {
               }`}
             </span>
             <br />
-            <span>Khối lượng thu về: </span>
-            <span style={{color: '#52c41a', fontWeight: 'bold'}}>{formatter2.format(record.diff)} USDF</span>
+            <span>Chênh lệch: </span>
+            <span style={{color: record.diff >= 0 ? '#16ceb9' : '#f5222d', fontWeight: 'bold'}}>
+              {formatter2.format(record.diff)} USDF
+            </span>
           </>
         )}
       />

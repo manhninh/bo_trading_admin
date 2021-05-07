@@ -54,10 +54,10 @@ const LogInComponent = () => {
         <img src={process.env.PUBLIC_URL + '/logo512.png'} alt="..." />
       </Form.Item>
       <Form ref={formRef} name="basic" layout="vertical" initialValues={{remember: false}} onFinish={onFinish}>
-        <Form.Item label="Email" name="username" rules={validation.tfa}>
+        <Form.Item label="Email" name="username" rules={validation.username}>
           <Search autoFocus={true} allowClear={true} enterButton="Gửi mã" loading={loading} onSearch={_sendCode} />
         </Form.Item>
-        <Form.Item label="Verify Code" name="password" rules={validation.username}>
+        <Form.Item label="Verify Code" name="password" rules={validation.password}>
           <Input autoComplete="off" allowClear={true} />
         </Form.Item>
         <Form.Item label="2FA" name="tfa" rules={validation.tfa}>

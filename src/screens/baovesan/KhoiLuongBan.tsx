@@ -44,7 +44,6 @@ const KhoiLuongBanComponent = () => {
           suffix="USDF"
         />
       )}>
-      <Table.Column<ColumnsProted> key="userId" title="No" dataIndex="userId" width={50} align="right" />
       <Table.Column<ColumnsProted>
         key="username"
         title="Tài khoản"

@@ -2,6 +2,7 @@ import {signOut} from 'routers/redux/slice';
 import {Socket} from 'socket.io-client';
 import {ContextType, ProtectLog} from './context';
 import {EVENTS, ROOM} from './socketConfig';
+import {addProtectLog} from '../redux/slice';
 
 export const calculatorEvents = ({setValue, socketCalculator, dispatch}) => {
   if (!socketCalculator) return;
@@ -23,6 +24,11 @@ export const calculatorEvents = ({setValue, socketCalculator, dispatch}) => {
 
   socketCalculator.on(EVENTS.ORDER_BUY_QUEUE, (result: any) => {
     setValue((state: ContextType) => ({...state, orders_buy: result}));
+  });
+
+  socketCalculator.on(EVENTS.ADMIN_PROTECT_LOG_NEW, (result: ProtectLog) => {
+    console.log('result', result);
+    dispatch(addProtectLog(result));
   });
 };
 
