@@ -1,32 +1,15 @@
-import {
-  Button,
-  Card,
-  Checkbox,
-  Col,
-  Divider,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Pagination,
-  Row,
-  Switch,
-  Table,
-} from 'antd';
-import {useForm} from 'antd/lib/form/Form';
-import Paragraph from 'antd/lib/typography/Paragraph';
-import config from 'constants/config';
+import {Button, Checkbox, Col, Form, Input, message, Pagination, Popconfirm, Row, Switch, Table} from 'antd';
 import ContainerLayout from 'containers/components/layout';
 import useError from 'containers/hooks/errorProvider/useError';
-import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
 import React, {useEffect, useState} from 'react';
-import {getAllUsers} from './services';
-import {SearchOutlined, EditOutlined} from '@ant-design/icons';
+import {getAllUsers, reset2FAUser} from './services';
+import {SearchOutlined, ReloadOutlined, KeyOutlined} from '@ant-design/icons';
 import {formatter2} from 'utils/formatter';
-import Title from 'antd/lib/typography/Title';
-import moment from 'moment';
+import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
 
 interface ColumnsProted {
+  _id: string;
+  isEnabledTFA: boolean;
   time: string;
   open_result: number;
   close_result: number;
@@ -38,6 +21,7 @@ interface ColumnsProted {
 const DanhSachTaiKhoanComponent = () => {
   const {addError} = useError();
   const [loading, setLoading] = useState(false);
+  const {showLoading, hideLoading} = useLoading();
   const [state, setState] = useState({
     textSearch: '',
     hideAmountSmall: false,
@@ -81,6 +65,22 @@ const DanhSachTaiKhoanComponent = () => {
     setState((state) => ({...state, hideAmountSmall: evt}));
   };
 
+  const _reload = () => {
+    getTransaction(state.textSearch, state.hideAmountSmall, state.page);
+  };
+
+  const confirm = (userId: string) => async () => {
+    showLoading();
+    try {
+      await reset2FAUser(userId);
+      getTransaction(state.textSearch, state.hideAmountSmall, state.page);
+    } catch (error) {
+      addError(error, 'Đặt lại 2FA của người dùng thất bại!');
+    } finally {
+      hideLoading();
+    }
+  };
+
   return (
     <ContainerLayout>
       <Table<ColumnsProted>
@@ -106,23 +106,16 @@ const DanhSachTaiKhoanComponent = () => {
             <Col xs={24} sm={8} className="text-right">
               <Button icon={<SearchOutlined />} type="primary" onClick={() => _changePage(1)}>
                 Tìm kiếm
+              </Button>{' '}
+              <Button icon={<ReloadOutlined />} type="primary" danger onClick={_reload}>
+                Làm mới
               </Button>
             </Col>
           </Row>
         )}
         loading={loading}>
-        <Table.Column<ColumnsProted>
-          key="username"
-          title="Tài khoản"
-          dataIndex="username"
-          // render={(text) => <span>{moment(Number(text)).format('HH:mm')}</span>}
-        />
-        <Table.Column<ColumnsProted>
-          key="email"
-          title="Email"
-          dataIndex="email"
-          // render={(text) => <span>{formatter2.format(text)}</span>}
-        />
+        <Table.Column<ColumnsProted> key="username" title="Tài khoản" dataIndex="username" />
+        <Table.Column<ColumnsProted> key="email" title="Email" dataIndex="email" />
         <Table.Column<ColumnsProted>
           key="is_sponsor"
           title="Sponsor"
@@ -170,14 +163,29 @@ const DanhSachTaiKhoanComponent = () => {
           title=""
           dataIndex="_id"
           align="center"
-          render={(text) => (
-            <>
-              <Button icon={<EditOutlined />} size="small" type="primary" />
-            </>
-          )}
+          render={(text, record) =>
+            record.isEnabledTFA ? (
+              <Popconfirm
+                placement="left"
+                title="Bạn có chắc chắn muốn đặt lại 2FA của người dùng?"
+                onConfirm={confirm(text)}
+                okText="Đồng ý"
+                cancelText="Huỷ bỏ">
+                <Button size="small" type="primary" danger ghost title="Đặt lại 2FA">
+                  Tắt 2FA
+                </Button>
+              </Popconfirm>
+            ) : null
+          }
         />
       </Table>
-      <Pagination current={state.page} pageSize={50} total={state.total} showSizeChanger={false} onChange={_changePage} />
+      <Pagination
+        current={state.page}
+        pageSize={50}
+        total={state.total}
+        showSizeChanger={false}
+        onChange={_changePage}
+      />
     </ContainerLayout>
   );
 };

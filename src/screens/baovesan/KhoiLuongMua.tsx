@@ -48,7 +48,6 @@ const KhoiLuongMuaComponent = () => {
         key="username"
         title="Tài khoản"
         dataIndex="username"
-        render={(text) => <a>{text}</a>}
       />
       <Table.Column<ColumnsProted>
         key="amount_order"

@@ -18,6 +18,10 @@ body,
   margin: 12px !important;
 }
 
+.ant-picker{
+  width: 100%;
+}
+
 .text-center {
   text-align: center;
 }

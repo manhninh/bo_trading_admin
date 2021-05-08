@@ -15,3 +15,12 @@ export const getAllUsers = async (searchUser: SearchUser) => {
     throw error;
   }
 };
+
+export const reset2FAUser = async (userId: string) => {
+  try {
+    const result = await configServices.postService('admins/reset-2fa-user', {userId});
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
