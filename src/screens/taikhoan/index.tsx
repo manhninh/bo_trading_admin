@@ -106,9 +106,6 @@ const DanhSachTaiKhoanComponent = () => {
             <Col xs={24} sm={8} className="text-right">
               <Button icon={<SearchOutlined />} type="primary" onClick={() => _changePage(1)}>
                 Tìm kiếm
-              </Button>{' '}
-              <Button icon={<ReloadOutlined />} type="primary" danger onClick={_reload}>
-                Làm mới
               </Button>
             </Col>
           </Row>

@@ -25,6 +25,7 @@ import {formatter2} from 'utils/formatter';
 import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
 import moment from 'moment';
 import {Store} from 'rc-field-form/lib/interface';
+import Paragraph from 'antd/lib/typography/Paragraph';
 
 interface ColumnsProted {
   _id: string;
@@ -92,11 +93,6 @@ const DanhSachNapTienComponent = () => {
     getTransaction(username, status, fromDate, toDate, page);
   };
 
-  const _reload = () => {
-    const {username, status, fromDate, toDate} = form.getFieldsValue();
-    getTransaction(username, status, fromDate, toDate, state.page);
-  };
-
   return (
     <ContainerLayout>
       <Card size="small">
@@ -119,25 +115,18 @@ const DanhSachNapTienComponent = () => {
             </Col>
             <Col xs={12} sm={6}>
               <Form.Item label="Từ ngày" name="fromDate">
-                <DatePicker defaultValue={moment()} allowClear={false} format="DD/MM/YYYY" />
+                <DatePicker defaultValue={moment().startOf('week')} allowClear={false} format="DD/MM/YYYY" />
               </Form.Item>
             </Col>
             <Col xs={12} sm={6}>
               <Form.Item label="Đến ngày" name="toDate">
-                <DatePicker defaultValue={moment()} allowClear={false} format="DD/MM/YYYY" />
+                <DatePicker defaultValue={moment().endOf('week')} allowClear={false} format="DD/MM/YYYY" />
               </Form.Item>
             </Col>
-          </Row>
-          <Row gutter={20}>
             <Col xs={12} sm={6}>
-              <Space>
-                <Button icon={<SearchOutlined />} type="primary" onClick={_search}>
-                  Tìm kiếm
-                </Button>
-                <Button icon={<ReloadOutlined />} type="primary" danger onClick={_reload}>
-                  Làm mới
-                </Button>
-              </Space>
+              <Button icon={<SearchOutlined />} type="primary" onClick={_search}>
+                Tìm kiếm
+              </Button>
             </Col>
           </Row>
         </Form>
@@ -151,34 +140,70 @@ const DanhSachNapTienComponent = () => {
         scroll={{x: 300}}
         locale={{emptyText: 'Không có dữ liệu'}}
         loading={loading}>
+        <Table.Column<ColumnsProted>
+          key="createdAt"
+          title="Thời gian"
+          dataIndex="createdAt"
+          align="center"
+          render={(text) => <span>{moment(text).format('DD/MM/YYYY HH:mm:ss')}</span>}
+        />
         <Table.Column<ColumnsProted> key="username" title="Tài khoản" dataIndex="username" />
-        <Table.Column<ColumnsProted> key="address" title=" Địa chỉ ví" dataIndex="address" />
+        <Table.Column<ColumnsProted> key="symbol" title="Mạng lưới" dataIndex="symbol" />
         <Table.Column<ColumnsProted>
           key="tx"
           title="Transaction"
           dataIndex="tx"
-          render={(text) => <span>{formatter2.format(text)} USDF</span>}
+          render={(text, record) => (
+            <>
+              <span>
+                Địa chỉ ví: <strong>{record.address}</strong>
+              </span>
+              <br />
+              {record.symbol.toLocaleLowerCase() === 'usdt-trc20' ? (
+                <a target="_blank" rel="noopener noreferrer" href={`https://tronscan.io/#/transaction/${text}`}>
+                  https://tronscan.io/#/transaction/{text}
+                </a>
+              ) : (
+                <a target="_blank" rel="noopener noreferrer" href={`https://etherscan.io/tx/${text}`}>
+                  https://etherscan.io/tx/{text}
+                </a>
+              )}
+            </>
+          )}
         />
         <Table.Column<ColumnsProted>
-          key="symbol"
-          title="Ví trade"
-          dataIndex="symbol"
+          key="amount"
+          title="Số tiền"
+          dataIndex="amount"
           align="right"
-          render={(text) => <span>{formatter2.format(text)} USDF</span>}
+          render={(text) => <span>{formatter2.format(text)} USDT</span>}
         />
         <Table.Column<ColumnsProted>
-          key="amount_copytrade"
-          title="Ví copy"
-          dataIndex="amount_copytrade"
-          align="right"
-          render={(text) => <span>{formatter2.format(text)} USDF</span>}
-        />
-        <Table.Column<ColumnsProted>
-          key="amount_expert"
-          title="Ví chuyên gia"
-          dataIndex="amount_expert"
-          align="right"
-          render={(text) => <span>{formatter2.format(text)} USDF</span>}
+          key="status"
+          title="Trạng thái"
+          dataIndex="status"
+          render={(text) => {
+            switch (text) {
+              case 1:
+                return (
+                  <Paragraph className="mb-0" type="success">
+                    Thành công
+                  </Paragraph>
+                );
+              case 2:
+                return (
+                  <Paragraph className="mb-0" type="danger">
+                    Thất bại
+                  </Paragraph>
+                );
+              default:
+                return (
+                  <Paragraph className="mb-0" type="warning">
+                    Đang xử lý
+                  </Paragraph>
+                );
+            }
+          }}
         />
       </Table>
       <Pagination
