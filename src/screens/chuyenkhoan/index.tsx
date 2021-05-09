@@ -1,45 +1,28 @@
-import {
-  Button,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  message,
-  Pagination,
-  Popconfirm,
-  Row,
-  Select,
-  Switch,
-  Table,
-  DatePicker,
-  Card,
-  Space,
-  FormInstance,
-} from 'antd';
+import {Button, Col, Form, Input, message, Pagination, Row, Select, Table, DatePicker, Card} from 'antd';
 import ContainerLayout from 'containers/components/layout';
 import useError from 'containers/hooks/errorProvider/useError';
 import React, {useEffect, useState} from 'react';
-import {getDepositUsers} from './services';
-import {SearchOutlined, ReloadOutlined, KeyOutlined} from '@ant-design/icons';
+import {getTranferUsers} from './services';
+import {SearchOutlined} from '@ant-design/icons';
 import {formatter2} from 'utils/formatter';
-import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
 import moment from 'moment';
-import {Store} from 'rc-field-form/lib/interface';
 import Paragraph from 'antd/lib/typography/Paragraph';
+import {SYSTEM_CONFIG} from 'constants/system';
 
 interface ColumnsProted {
   _id: string;
   amount: number;
-  address: string;
-  tx: string;
   status: number;
+  from_wallet: string;
+  to_wallet: string;
   user_id: string;
+  to_user_id: string;
   createdAt: string;
-  username: string;
-  symbol: string;
+  from_user: string;
+  to_user: string;
 }
 
-const DanhSachNapTienComponent = () => {
+const DanhSachChuyenKhoanComponent = () => {
   const [form] = Form.useForm();
   const {addError} = useError();
   const [loading, setLoading] = useState(false);
@@ -62,16 +45,16 @@ const DanhSachNapTienComponent = () => {
   const getTransaction = async (username: string, status: number, fromDate: Date, toDate: Date, page: number) => {
     setLoading(true);
     try {
-      const result = await getDepositUsers({username, status, fromDate, toDate, page, limit: 50});
+      const result = await getTranferUsers({username, status, fromDate, toDate, page, limit: 50});
       if (result && result.data) {
         setState({
           page,
           data: result.data.docs,
           total: result.data.total,
         });
-      } else message.error('Lỗi khi tải danh sách người dùng!');
+      } else message.error('Lỗi khi tải danh sách chuyển khoản!');
     } catch (error) {
-      addError(error, 'Lỗi khi tải danh sách người dùng');
+      addError(error, 'Lỗi khi tải danh sách chuyển khoản');
     } finally {
       setLoading(false);
     }
@@ -145,32 +128,46 @@ const DanhSachNapTienComponent = () => {
           title="Thời gian"
           dataIndex="createdAt"
           align="center"
-          width={100}
+          width={150}
           render={(text) => <span>{moment(text).format('DD/MM/YYYY HH:mm:ss')}</span>}
         />
-        <Table.Column<ColumnsProted> key="username" title="Tài khoản" dataIndex="username" width={150} />
-        <Table.Column<ColumnsProted> key="symbol" title="Mạng lưới" dataIndex="symbol" width={100} />
         <Table.Column<ColumnsProted>
-          key="tx"
-          title="Transaction"
-          dataIndex="tx"
-          width={500}
+          key="user_id"
+          title="Loại"
+          dataIndex="user_id"
+          align="right"
+          width={100}
+          render={(text, record) => <span>{text === record.to_user_id ? 'IN ACCOUNT' : 'TO USER'}</span>}
+        />
+        <Table.Column<ColumnsProted> key="from_user" title="Tài khoản tạo" dataIndex="from_user" width={150} />
+        <Table.Column<ColumnsProted>
+          key="user_id"
+          title="Từ"
+          dataIndex="user_id"
+          width={150}
           render={(text, record) => (
-            <>
-              <span>
-                Địa chỉ ví: <strong>{record.address}</strong>
-              </span>
-              <br />
-              {record.symbol.toLocaleLowerCase() === 'usdt-trc20' ? (
-                <a target="_blank" rel="noopener noreferrer" href={`https://tronscan.io/#/transaction/${text}`}>
-                  https://tronscan.io/#/transaction/{text}
-                </a>
-              ) : (
-                <a target="_blank" rel="noopener noreferrer" href={`https://etherscan.io/tx/${text}`}>
-                  https://etherscan.io/tx/{text}
-                </a>
-              )}
-            </>
+            <span>
+              {text === record.to_user_id
+                ? record.from_wallet
+                  ? `WALLET ${record.from_wallet.toUpperCase()}`
+                  : ''
+                : record.from_user}
+            </span>
+          )}
+        />
+        <Table.Column<ColumnsProted>
+          key="user_id"
+          title="Đến"
+          dataIndex="user_id"
+          width={150}
+          render={(text, record) => (
+            <span>
+              {text === record.to_user_id
+                ? record.to_wallet
+                  ? `WALLET ${record.to_wallet.toUpperCase()}`
+                  : ''
+                : record.to_user}
+            </span>
           )}
         />
         <Table.Column<ColumnsProted>
@@ -187,24 +184,30 @@ const DanhSachNapTienComponent = () => {
           dataIndex="status"
           width={90}
           align="center"
-          render={(text) => {
+          render={(text: SYSTEM_CONFIG, record) => {
             switch (text) {
-              case 1:
+              case SYSTEM_CONFIG.TRANSACTION_STATUS_SUCCESS:
                 return (
                   <Paragraph className="mb-0" type="success">
                     Thành công
                   </Paragraph>
                 );
-              case 2:
+              case SYSTEM_CONFIG.TRANSACTION_STATUS_CANCELLED:
                 return (
                   <Paragraph className="mb-0" type="danger">
                     Thất bại
                   </Paragraph>
                 );
-              default:
+              case SYSTEM_CONFIG.TRANSACTION_STATUS_PROCESSING:
                 return (
                   <Paragraph className="mb-0" type="warning">
                     Đang xử lý
+                  </Paragraph>
+                );
+              default:
+                return (
+                  <Paragraph className="mb-0" type="secondary">
+                    Chờ duyệt
                   </Paragraph>
                 );
             }
@@ -222,4 +225,4 @@ const DanhSachNapTienComponent = () => {
   );
 };
 
-export default React.memo(DanhSachNapTienComponent);
+export default React.memo(DanhSachChuyenKhoanComponent);

@@ -111,13 +111,14 @@ const DanhSachTaiKhoanComponent = () => {
           </Row>
         )}
         loading={loading}>
-        <Table.Column<ColumnsProted> key="username" title="Tài khoản" dataIndex="username" />
-        <Table.Column<ColumnsProted> key="email" title="Email" dataIndex="email" />
+        <Table.Column<ColumnsProted> key="username" title="Tài khoản" dataIndex="username" width={150} />
+        <Table.Column<ColumnsProted> key="email" title="Email" dataIndex="email" width={250} />
         <Table.Column<ColumnsProted>
           key="is_sponsor"
           title="Sponsor"
           dataIndex="is_sponsor"
           align="center"
+          width={90}
           render={(text) => <Checkbox defaultChecked={Boolean(text)} disabled />}
         />
         <Table.Column<ColumnsProted>
@@ -125,6 +126,7 @@ const DanhSachTaiKhoanComponent = () => {
           title="Chuyên gia"
           dataIndex="is_expert"
           align="center"
+          width={90}
           render={(text) => <Checkbox defaultChecked={Boolean(text)} disabled />}
         />
         <Table.Column<ColumnsProted>
@@ -132,6 +134,7 @@ const DanhSachTaiKhoanComponent = () => {
           title="Ví chính"
           dataIndex="amount"
           align="right"
+          width={120}
           render={(text) => <span>{formatter2.format(text)} USDF</span>}
         />
         <Table.Column<ColumnsProted>
@@ -139,6 +142,7 @@ const DanhSachTaiKhoanComponent = () => {
           title="Ví trade"
           dataIndex="amount_trade"
           align="right"
+          width={120}
           render={(text) => <span>{formatter2.format(text)} USDF</span>}
         />
         <Table.Column<ColumnsProted>
@@ -146,6 +150,7 @@ const DanhSachTaiKhoanComponent = () => {
           title="Ví copy"
           dataIndex="amount_copytrade"
           align="right"
+          width={120}
           render={(text) => <span>{formatter2.format(text)} USDF</span>}
         />
         <Table.Column<ColumnsProted>
@@ -153,6 +158,7 @@ const DanhSachTaiKhoanComponent = () => {
           title="Ví chuyên gia"
           dataIndex="amount_expert"
           align="right"
+          width={120}
           render={(text) => <span>{formatter2.format(text)} USDF</span>}
         />
         <Table.Column<ColumnsProted>
@@ -160,6 +166,7 @@ const DanhSachTaiKhoanComponent = () => {
           title=""
           dataIndex="_id"
           align="center"
+          width={80}
           render={(text, record) =>
             record.isEnabledTFA ? (
               <Popconfirm

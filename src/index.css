@@ -22,6 +22,10 @@ body,
   width: 100%;
 }
 
+table{
+  table-layout: fixed !important;
+}
+
 .text-center {
   text-align: center;
 }

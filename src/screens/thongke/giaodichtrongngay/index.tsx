@@ -80,6 +80,7 @@ const GiaoDichTrongNgayComponent = () => {
           title="Thời gian"
           dataIndex="time"
           align="center"
+          width={100}
           render={(text) => <span>{moment(Number(text)).format('HH:mm')}</span>}
         />
         <Table.Column<ColumnsProted>
@@ -87,6 +88,7 @@ const GiaoDichTrongNgayComponent = () => {
           title="Giá mở cửa"
           dataIndex="open_result"
           align="right"
+          width={100}
           render={(text) => <span>{formatter2.format(text)}</span>}
         />
         <Table.Column<ColumnsProted>
@@ -94,6 +96,7 @@ const GiaoDichTrongNgayComponent = () => {
           title="Giá đóng cửa"
           dataIndex="close_result"
           align="right"
+          width={100}
           render={(text) => <span>{formatter2.format(text)}</span>}
         />
         <Table.Column<ColumnsProted>
@@ -101,6 +104,7 @@ const GiaoDichTrongNgayComponent = () => {
           title="Kết quả"
           dataIndex="close_result"
           align="right"
+          width={100}
           render={(text, record) => (
             <span style={{color: record.open_result < record.close_result ? '#16ceb9' : '#f5222d'}}>
               {record.open_result < record.close_result ? 'Mua thắng' : 'Bán thắng'}
@@ -111,18 +115,23 @@ const GiaoDichTrongNgayComponent = () => {
           key="buy_amount_order"
           title="Mua / Bán"
           dataIndex="buy_amount_order"
-          align="center"
+          align="right"
+          width={200}
           render={(text, record) => (
-            <Row>
-              <Col span={6}>Tổng mua:</Col>
-              <Col span={6}>
-                <span style={{color: '#16ceb9'}}>{formatter2.format(text)}</span>
-              </Col>
-              <Col span={6}>Tổng bán:</Col>
-              <Col span={6} className="text-right">
-                <span style={{color: '#f5222d'}}>{formatter2.format(record.sell_amount_order)}</span>
-              </Col>
-            </Row>
+            <>
+              <Row>
+                <Col span={6}>Tổng mua:</Col>
+                <Col span={6}>
+                  <span style={{color: '#16ceb9'}}>{formatter2.format(text)}</span>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={6}>Tổng bán:</Col>
+                <Col span={6} className="text-right">
+                  <span style={{color: '#f5222d'}}>{formatter2.format(record.sell_amount_order)}</span>
+                </Col>
+              </Row>
+            </>
           )}
         />
         <Table.Column<ColumnsProted>
@@ -130,6 +139,7 @@ const GiaoDichTrongNgayComponent = () => {
           title="Lãi / Lỗ"
           dataIndex="amount_result"
           align="right"
+          width={120}
           render={(text) => (
             <span style={{color: text > 0 ? '#52c41a' : '#f5222d'}}>{formatter2.format(text)} USDF</span>
           )}

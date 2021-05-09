@@ -50,6 +50,10 @@ export const routeManager = (): RouteTypes => ({
           path: '/taikhoan/ruttien',
           name: 'Rút tiền',
         },
+        {
+          path: '/taikhoan/chuyenkhoan',
+          name: 'Chuyển khoản',
+        },
       ],
     },
     {
@@ -58,8 +62,8 @@ export const routeManager = (): RouteTypes => ({
       icon: <FormOutlined />,
       children: [
         {
-          path: '/thongke/lichsuchuyentien',
-          name: 'Lịch sử chuyển tiền',
+          path: '/thongke/ib',
+          name: 'Danh sách IB',
         },
         {
           path: '/thongke/giaodichtrongngay',
@@ -77,8 +81,8 @@ export const routeManager = (): RouteTypes => ({
           name: 'Bảo mật',
         },
         {
-          path: '/caidat/baovesan',
-          name: 'Bảo vệ sàn tự động',
+          path: '/caidat/cauhinh',
+          name: 'Cấu hình',
         },
       ],
     },

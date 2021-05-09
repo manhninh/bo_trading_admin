@@ -31,8 +31,10 @@ const RightContent = () => {
     showLoading();
     try {
       const res = await fetchAdminInfor();
-      if (res.data && res.data.length > 0) {
-        await dispatch(restoreAccount(res.data[0]));
+      if (res.data && res.data.admin?.length > 0) {
+        const admin = res.data.admin[0];
+        admin.config = res.data.config;
+        await dispatch(restoreAccount(admin));
         setState((state) => ({...state, isAuthen: true, openSignin: false}));
       } else {
         dispatch(signOut());
@@ -54,7 +56,7 @@ const RightContent = () => {
 
   return (
     <div className="right">
-      <Button size="large" type="primary" icon={<PoweroffOutlined />} onClick={logOut}/>
+      <Button size="large" type="primary" icon={<PoweroffOutlined />} onClick={logOut} />
     </div>
   );
 };

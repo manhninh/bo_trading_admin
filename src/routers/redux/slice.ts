@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {LOCAL_STORE} from 'constants/system';
 import {AccountInfor, AuthState} from './state';
-import {fetchChangeTypeUser, fetchLogin} from './thunks';
+import {fetchLogin} from './thunks';
 
 export const initialAuthState: AuthState = {
   isSignedOut: false,
@@ -11,6 +11,7 @@ export const initialAuthState: AuthState = {
     _id: null,
     email: null,
     isEnabledTFA: false,
+    config: [],
   },
 };
 
@@ -26,6 +27,7 @@ const authSlice = createSlice({
         _id: null,
         email: null,
         isEnabledTFA: false,
+        config: [],
       },
     }),
     signIn: (state: AuthState, action: PayloadAction<string>) => ({
@@ -55,30 +57,14 @@ const authSlice = createSlice({
     builder
       .addCase(fetchLogin.fulfilled, (state, action) => {
         const payload = action.payload;
-        if (payload.result) {
+        if (payload) {
           state.isSignedOut = false;
           state.isSignedIn = true;
-          state.userToken = `${action.payload.result.token_type} ${action.payload.result.access_token}`;
-          localStorage.setItem(
-            LOCAL_STORE.TOKEN,
-            `${action.payload.result.token_type} ${action.payload.result.access_token}`,
-          );
+          state.userToken = `${action.payload.token_type} ${action.payload.access_token}`;
+          localStorage.setItem(LOCAL_STORE.TOKEN, `${action.payload.token_type} ${action.payload.access_token}`);
         } else throw Error('Login fail!');
       })
       .addCase(fetchLogin.rejected, (_state, action) => {
-        throw action.payload;
-      })
-      .addCase(fetchChangeTypeUser.fulfilled, (state, action) => {
-        const payload = action.payload;
-        if (payload.result) {
-          state.accountInfor = {
-            ...state.accountInfor,
-            ...payload.result,
-            type_user: payload.type_user,
-          };
-        } else throw Error('Change type account fail!');
-      })
-      .addCase(fetchChangeTypeUser.rejected, (state, action) => {
         throw action.payload;
       });
   },

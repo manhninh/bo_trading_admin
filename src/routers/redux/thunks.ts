@@ -20,16 +20,7 @@ export const fetchLogin = createAsyncThunk('auth/login', async (auth: Auth, thun
       tfa: auth.tfa,
       admin: true,
     });
-    return {result, username: auth.username};
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
-export const fetchChangeTypeUser = createAsyncThunk('auth/change_type_user', async (type_user: number, thunkAPI) => {
-  try {
-    const result = await configServices.getService('users');
-    return {result: result.data[0], type_user};
+    return result;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }

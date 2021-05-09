@@ -18,8 +18,9 @@ export enum ROUTE_PATH {
   TAIKHOAN_DANHSACH = '/taikhoan/danhsach',
   NAPTIEN = '/taikhoan/naptien',
   RUTTIEN = '/taikhoan/ruttien',
+  CHUYENKHOAN = '/taikhoan/chuyenkhoan',
   BAOMAT = '/caidat/baomat',
-  THIETLAP_BVS_TUDONG = '/caidat/baovesan',
-  THONGKE_LICHSUCHUYENTIEN = '/thongke/lichsuchuyentien',
+  CAUHINH = '/caidat/cauhinh',
+  THONGKE_DANHSACHIB = '/thongke/ib',
   THONGKE_LICHSUGIAODICH = '/thongke/giaodichtrongngay',
 }

@@ -9,9 +9,11 @@ const BaoVeSan = lazy(() => import('screens/baovesan'));
 const TaiKhoan = lazy(() => import('screens/taikhoan'));
 const NapTien = lazy(() => import('screens/naptien'));
 const RutTien = lazy(() => import('screens/ruttien'));
+const ChuyenKhoan = lazy(() => import('screens/chuyenkhoan'));
 const BaoMat = lazy(() => import('screens/caidat/baomat'));
-const ThietLapBvsTuDong = lazy(() => import('screens/caidat/baovesan'));
+const CauHinh = lazy(() => import('screens/caidat/cauHinh'));
 const GiaoDichTrongNgay = lazy(() => import('screens/thongke/giaodichtrongngay'));
+const Sponsor = lazy(() => import('screens/thongke/sponsor'));
 const NotFound = lazy(() => import('containers/components/exceptions/404'));
 
 const NavigationComponent = () => {
@@ -24,8 +26,10 @@ const NavigationComponent = () => {
       <PrivateRoute path={ROUTE_PATH.TAIKHOAN_DANHSACH} comp={TaiKhoan} />
       <PrivateRoute path={ROUTE_PATH.NAPTIEN} comp={NapTien} />
       <PrivateRoute path={ROUTE_PATH.RUTTIEN} comp={RutTien} />
+      <PrivateRoute path={ROUTE_PATH.CHUYENKHOAN} comp={ChuyenKhoan} />
       <PrivateRoute path={ROUTE_PATH.BAOMAT} comp={BaoMat} />
-      <PrivateRoute path={ROUTE_PATH.THIETLAP_BVS_TUDONG} comp={ThietLapBvsTuDong} />
+      <PrivateRoute path={ROUTE_PATH.CAUHINH} comp={CauHinh} />
+      <PrivateRoute path={ROUTE_PATH.THONGKE_DANHSACHIB} comp={Sponsor} />
       <PrivateRoute path={ROUTE_PATH.THONGKE_LICHSUGIAODICH} comp={GiaoDichTrongNgay} />
       <Route component={NotFound} />
     </Switch>
