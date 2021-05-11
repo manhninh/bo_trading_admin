@@ -1,16 +1,12 @@
-import {Button, Card, Col, Divider, Form, InputNumber, message, Row, Table} from 'antd';
-import {useForm} from 'antd/lib/form/Form';
-import Paragraph from 'antd/lib/typography/Paragraph';
-import config from 'constants/config';
+import {ReloadOutlined} from '@ant-design/icons';
+import {Button, Col, message, Row, Table} from 'antd';
+import Title from 'antd/lib/typography/Title';
 import ContainerLayout from 'containers/components/layout';
 import useError from 'containers/hooks/errorProvider/useError';
-import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
-import React, {useEffect, useState} from 'react';
-import {getTransactionInDay} from './services';
-import {ReloadOutlined} from '@ant-design/icons';
-import {formatter2} from 'utils/formatter';
-import Title from 'antd/lib/typography/Title';
 import moment from 'moment';
+import React, {useEffect, useState} from 'react';
+import {formatter2} from 'utils/formatter';
+import {getTransactionInDay} from './services';
 
 interface ColumnsProted {
   time: string;

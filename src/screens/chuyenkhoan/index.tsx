@@ -1,13 +1,13 @@
-import {Button, Col, Form, Input, message, Pagination, Row, Select, Table, DatePicker, Card} from 'antd';
-import ContainerLayout from 'containers/components/layout';
-import useError from 'containers/hooks/errorProvider/useError';
-import React, {useEffect, useState} from 'react';
-import {getTranferUsers} from './services';
 import {SearchOutlined} from '@ant-design/icons';
-import {formatter2} from 'utils/formatter';
-import moment from 'moment';
+import {Button, Card, Col, DatePicker, Form, Input, message, Pagination, Row, Select, Table} from 'antd';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import {SYSTEM_CONFIG} from 'constants/system';
+import ContainerLayout from 'containers/components/layout';
+import useError from 'containers/hooks/errorProvider/useError';
+import moment from 'moment';
+import React, {useEffect, useState} from 'react';
+import {formatter2} from 'utils/formatter';
+import {getTranferUsers} from './services';
 
 interface ColumnsProted {
   _id: string;

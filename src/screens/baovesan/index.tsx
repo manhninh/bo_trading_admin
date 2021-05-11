@@ -1,5 +1,4 @@
-import {Button, Card, Col, Divider, Form, InputNumber, Row, Table} from 'antd';
-import Paragraph from 'antd/lib/typography/Paragraph';
+import {Card, Col, Divider, Row} from 'antd';
 import ContainerLayout from 'containers/components/layout';
 import React from 'react';
 import KhoiLuongBan from './KhoiLuongBan';

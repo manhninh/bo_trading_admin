@@ -1,30 +1,31 @@
+import {CheckOutlined, CloseOutlined, SearchOutlined} from '@ant-design/icons';
 import {
   Button,
+  Card,
   Col,
+  DatePicker,
   Form,
   Input,
   message,
   Pagination,
+  Popconfirm,
   Row,
   Select,
-  Table,
-  DatePicker,
-  Card,
-  Popconfirm,
   Space,
+  Table,
   Tooltip,
 } from 'antd';
-import ContainerLayout from 'containers/components/layout';
-import useError from 'containers/hooks/errorProvider/useError';
-import React, {useEffect, useState} from 'react';
-import {getWithdrawUsers} from './services';
-import {SearchOutlined, FileDoneOutlined} from '@ant-design/icons';
-import {formatter2} from 'utils/formatter';
-import moment from 'moment';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import {useAppSelector} from 'boot/configureStore';
 import config from 'constants/config';
 import {SYSTEM_CONFIG} from 'constants/system';
+import ContainerLayout from 'containers/components/layout';
+import useError from 'containers/hooks/errorProvider/useError';
+import moment from 'moment';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {formatter2} from 'utils/formatter';
+import {autoWithdraw, getWithdrawUsers, withdrawConfirm, withdrawReject} from './services';
 
 interface ColumnsProted {
   _id: string;
@@ -39,6 +40,7 @@ interface ColumnsProted {
 }
 
 const DanhSachNapTienComponent = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const {addError} = useError();
   const [loading, setLoading] = useState(false);
@@ -59,12 +61,10 @@ const DanhSachNapTienComponent = () => {
     });
     if (configSettings.length > 0) {
       let autoWithdraw = configSettings.find(
-        (item) => item.key === config.SYSTEM_ENABLE_AUTO_WITHDRAW && item.active == true,
+        (item) => item.key === config.SYSTEM_ENABLE_AUTO_WITHDRAW && item.active === true,
       )?.value;
-      if (autoWithdraw) {
-        autoWithdraw = Boolean(autoWithdraw);
-        setState((state) => ({...state, autoWithdraw}));
-      }
+      autoWithdraw = Boolean(Number(autoWithdraw));
+      setState((state) => ({...state, autoWithdraw}));
     }
     getTransaction('', -1, new Date(), new Date(), 1);
   }, []);
@@ -104,9 +104,45 @@ const DanhSachNapTienComponent = () => {
     getTransaction(username, status, fromDate, toDate, page);
   };
 
-  const _onOffProtectAuto = () => {};
+  const _onOffProtectAuto = () => {
+    try {
+      autoWithdraw(
+        config.SYSTEM_ENABLE_AUTO_WITHDRAW || 'ENABLE_AUTO_WITHDRAW',
+        Number(!state.autoWithdraw).toString(),
+      );
+      setState((state) => ({...state, autoWithdraw: !state.autoWithdraw}));
+    } catch (error) {
+      addError(error, 'Bật/tắt rút tiền tự động thất bại');
+    }
+  };
 
-  const acceptWithdraw = (userId: string) => async () => {};
+  const acceptWithdraw = (transactionId: string) => async () => {
+    try {
+      withdrawConfirm(transactionId);
+      const data = [...state.data];
+      data.map((item: any) => {
+        if (item._id === transactionId) item.status = SYSTEM_CONFIG.TRANSACTION_STATUS_PROCESSING;
+        return item;
+      });
+      setState((state) => ({...state, data}));
+    } catch (error) {
+      addError(error, 'Lỗi khi duyệt rút tiền');
+    }
+  };
+
+  const closeWithdraw = (transactionId: string) => async () => {
+    try {
+      withdrawReject(transactionId);
+      const data = [...state.data];
+      data.map((item: any) => {
+        if (item._id === transactionId) item.status = SYSTEM_CONFIG.TRANSACTION_STATUS_CANCELLED;
+        return item;
+      });
+      setState((state) => ({...state, data}));
+    } catch (error) {
+      addError(error, 'Lỗi khi hủy rút tiền');
+    }
+  };
 
   return (
     <ContainerLayout>
@@ -249,17 +285,30 @@ const DanhSachNapTienComponent = () => {
                     Chờ duyệt
                   </Paragraph>
                 ) : (
-                  <Popconfirm
-                    placement="topRight"
-                    title="Bạn chắc chắn muốn duyệt lệnh này?"
-                    onConfirm={acceptWithdraw(record._id)}
-                    okText="Đồng ý"
-                    cancelText="Huỷ bỏ"
-                    okType="primary">
-                    <Tooltip placement="left" title="Duyệt rút tiền" color="green">
-                      <Button icon={<FileDoneOutlined />} type="primary" size="small" />
-                    </Tooltip>
-                  </Popconfirm>
+                  <Space>
+                    <Popconfirm
+                      placement="topRight"
+                      title="Bạn chắc chắn muốn duyệt rút tiền lệnh hiện tại?"
+                      onConfirm={acceptWithdraw(record._id)}
+                      okText="Đồng ý"
+                      cancelText="Huỷ bỏ"
+                      okType="primary">
+                      <Tooltip placement="bottom" title="Duyệt lệnh" color="green">
+                        <Button icon={<CheckOutlined />} type="primary" size="small" />
+                      </Tooltip>
+                    </Popconfirm>
+                    <Popconfirm
+                      placement="topRight"
+                      title="Bạn chắc chắn muốn hủy rút tiền lệnh hiện tại?"
+                      onConfirm={closeWithdraw(record._id)}
+                      okText="Đồng ý"
+                      cancelText="Huỷ bỏ"
+                      okType="primary">
+                      <Tooltip placement="bottom" title="Hủy lệnh" color="red">
+                        <Button icon={<CloseOutlined />} type="primary" danger={true} size="small" />
+                      </Tooltip>
+                    </Popconfirm>
+                  </Space>
                 );
             }
           }}

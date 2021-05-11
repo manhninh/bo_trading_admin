@@ -3,7 +3,7 @@ import {LOCAL_STORE} from 'constants/system';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import socketIOClient, {Socket} from 'socket.io-client';
-import SocketContext, {ContextType, Order, ProtectLog} from './context';
+import SocketContext, {ContextType, Order} from './context';
 import {calculatorEvents, calculatorSocketDisconnect} from './events';
 
 const SocketProvider = (props: any) => {

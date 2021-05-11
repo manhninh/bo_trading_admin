@@ -1,5 +1,4 @@
-import {Button, Card, Col, Divider, Form, InputNumber, message, Popconfirm, Row, Switch, Table} from 'antd';
-import {useForm} from 'antd/lib/form/Form';
+import {Button, Card, Col, Divider, Form, InputNumber, message, Row} from 'antd';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import {useAppSelector} from 'boot/configureStore';
 import config from 'constants/config';
@@ -7,7 +6,7 @@ import ContainerLayout from 'containers/components/layout';
 import useError from 'containers/hooks/errorProvider/useError';
 import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
 import React, {useEffect, useState} from 'react';
-import {getProtectDetails, saveProtectDetails} from './services';
+import {saveProtectDetails} from './services';
 
 const BaoVeSanComponent = () => {
   const {showLoading, hideLoading} = useLoading();
@@ -28,13 +27,13 @@ const BaoVeSanComponent = () => {
     try {
       if (configSettings.length > 0) {
         const protectLevel1 = Number(
-          configSettings.find((item) => item.key === config.SYSTEM_PROTECT_LEVEL_1 && item.active == true)?.value || 0,
+          configSettings.find((item) => item.key === config.SYSTEM_PROTECT_LEVEL_1 && item.active === true)?.value || 0,
         );
         const protectLevel2 = Number(
-          configSettings.find((item) => item.key === config.SYSTEM_PROTECT_LEVEL_2 && item.active == true)?.value || 0,
+          configSettings.find((item) => item.key === config.SYSTEM_PROTECT_LEVEL_2 && item.active === true)?.value || 0,
         );
         const protectLevel3 = Number(
-          configSettings.find((item) => item.key === config.SYSTEM_PROTECT_LEVEL_3 && item.active == true)?.value || 0,
+          configSettings.find((item) => item.key === config.SYSTEM_PROTECT_LEVEL_3 && item.active === true)?.value || 0,
         );
         setState({
           protectLevel1,
@@ -61,8 +60,6 @@ const BaoVeSanComponent = () => {
       hideLoading();
     }
   };
-
-  const _onOffProtectAuto = () => {};
 
   return (
     <ContainerLayout>

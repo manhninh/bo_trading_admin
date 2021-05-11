@@ -1,11 +1,11 @@
+import {SearchOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Col, Form, Input, message, Pagination, Popconfirm, Row, Switch, Table} from 'antd';
 import ContainerLayout from 'containers/components/layout';
 import useError from 'containers/hooks/errorProvider/useError';
-import React, {useEffect, useState} from 'react';
-import {getAllUsers, reset2FAUser} from './services';
-import {SearchOutlined, ReloadOutlined, KeyOutlined} from '@ant-design/icons';
-import {formatter2} from 'utils/formatter';
 import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
+import React, {useEffect, useState} from 'react';
+import {formatter2} from 'utils/formatter';
+import {getAllUsers, reset2FAUser} from './services';
 
 interface ColumnsProted {
   _id: string;
@@ -63,10 +63,6 @@ const DanhSachTaiKhoanComponent = () => {
 
   const _changeSwitch = (evt) => {
     setState((state) => ({...state, hideAmountSmall: evt}));
-  };
-
-  const _reload = () => {
-    getTransaction(state.textSearch, state.hideAmountSmall, state.page);
   };
 
   const confirm = (userId: string) => async () => {

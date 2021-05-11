@@ -1,31 +1,14 @@
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  message,
-  Pagination,
-  Row,
-  Select,
-  Table,
-  DatePicker,
-  Card,
-  Popconfirm,
-  Space,
-  Tooltip,
-} from 'antd';
-import ContainerLayout from 'containers/components/layout';
-import useError from 'containers/hooks/errorProvider/useError';
-import React, {useEffect, useState} from 'react';
-import {getSponsorUsers} from './services';
-import {SearchOutlined, FileDoneOutlined} from '@ant-design/icons';
-import {formatter2} from 'utils/formatter';
-import moment from 'moment';
-import Paragraph from 'antd/lib/typography/Paragraph';
+import {SearchOutlined} from '@ant-design/icons';
+import {Button, Col, Form, Input, message, Pagination, Row, Table} from 'antd';
+import Title from 'antd/lib/typography/Title';
 import {useAppSelector} from 'boot/configureStore';
 import config from 'constants/config';
-import {SYSTEM_CONFIG} from 'constants/system';
-import Title from 'antd/lib/typography/Title';
+import ContainerLayout from 'containers/components/layout';
+import useError from 'containers/hooks/errorProvider/useError';
+import moment from 'moment';
+import React, {useEffect, useState} from 'react';
+import {formatter2} from 'utils/formatter';
+import {getSponsorUsers} from './services';
 
 interface ColumnsProted {
   _id: string;
@@ -52,7 +35,7 @@ const DanhSachNapTienComponent = () => {
     });
     if (configSettings.length > 0) {
       let autoWithdraw = configSettings.find(
-        (item) => item.key === config.SYSTEM_ENABLE_AUTO_WITHDRAW && item.active == true,
+        (item) => item.key === config.SYSTEM_ENABLE_AUTO_WITHDRAW && item.active === true,
       )?.value;
       if (autoWithdraw) {
         autoWithdraw = Boolean(autoWithdraw);

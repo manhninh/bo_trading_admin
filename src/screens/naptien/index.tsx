@@ -1,31 +1,12 @@
-import {
-  Button,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  message,
-  Pagination,
-  Popconfirm,
-  Row,
-  Select,
-  Switch,
-  Table,
-  DatePicker,
-  Card,
-  Space,
-  FormInstance,
-} from 'antd';
+import {SearchOutlined} from '@ant-design/icons';
+import {Button, Card, Col, DatePicker, Form, Input, message, Pagination, Row, Select, Table} from 'antd';
+import Paragraph from 'antd/lib/typography/Paragraph';
 import ContainerLayout from 'containers/components/layout';
 import useError from 'containers/hooks/errorProvider/useError';
-import React, {useEffect, useState} from 'react';
-import {getDepositUsers} from './services';
-import {SearchOutlined, ReloadOutlined, KeyOutlined} from '@ant-design/icons';
-import {formatter2} from 'utils/formatter';
-import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
 import moment from 'moment';
-import {Store} from 'rc-field-form/lib/interface';
-import Paragraph from 'antd/lib/typography/Paragraph';
+import React, {useEffect, useState} from 'react';
+import {formatter2} from 'utils/formatter';
+import {getDepositUsers} from './services';
 
 interface ColumnsProted {
   _id: string;

@@ -1,12 +1,11 @@
-import React from 'react';
 import {
+  FormOutlined,
   PieChartOutlined,
   SecurityScanOutlined,
   SettingOutlined,
-  SwapOutlined,
   UsergroupAddOutlined,
-  FormOutlined,
 } from '@ant-design/icons';
+import React from 'react';
 
 export interface RouteTypes {
   path?: string;

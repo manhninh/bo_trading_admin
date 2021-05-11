@@ -17,3 +17,30 @@ export const getWithdrawUsers = async (searchUser: SearchUser) => {
     throw error;
   }
 };
+
+export const withdrawConfirm = async (transactionId: string) => {
+  try {
+    const result = await configServices.postService('admins/withdraw/confirm', {transactionId});
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const withdrawReject = async (transactionId: string) => {
+  try {
+    const result = await configServices.postService('admins/withdraw/reject', {transactionId});
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const autoWithdraw = async (key: string, value: string) => {
+  try {
+    const result = await configServices.postService('admins/config/system', {key, value});
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
