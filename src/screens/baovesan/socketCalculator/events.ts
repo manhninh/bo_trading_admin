@@ -27,7 +27,6 @@ export const calculatorEvents = ({setValue, socketCalculator, dispatch}) => {
   });
 
   socketCalculator.on(EVENTS.ADMIN_PROTECT_LOG_NEW, (result: ProtectLog) => {
-    console.log('result', result);
     dispatch(addProtectLog(result));
   });
 };
