@@ -5,6 +5,8 @@ import Title from 'antd/lib/typography/Title';
 import React, {useContext, useEffect, useState} from 'react';
 import {formatter2} from 'utils/formatter';
 import SocketContext, {ContextType} from './socketCalculator/context';
+import buySound from './buy.mp3';
+import useSound from 'use-sound';
 
 interface ColumnsProted {
   amount_order: number;
@@ -15,10 +17,12 @@ interface ColumnsProted {
 const KhoiLuongMuaComponent = () => {
   const {orders_buy} = useContext<ContextType>(SocketContext);
   const [totalBuy, setTotalBuy] = useState(0);
+  const [playBuy] = useSound(buySound);
 
   useEffect(() => {
     const totalBuy = orders_buy.reduce((sum, item) => sum + item.amount_order, 0);
     setTotalBuy(totalBuy);
+    if (totalBuy > 0) playBuy();
   }, [orders_buy]);
 
   return (
@@ -44,11 +48,7 @@ const KhoiLuongMuaComponent = () => {
           suffix="USDF"
         />
       )}>
-      <Table.Column<ColumnsProted>
-        key="username"
-        title="Tài khoản"
-        dataIndex="username"
-      />
+      <Table.Column<ColumnsProted> key="username" title="Tài khoản" dataIndex="username" />
       <Table.Column<ColumnsProted>
         key="amount_order"
         title="Khối lượng"
