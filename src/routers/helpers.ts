@@ -16,6 +16,7 @@ export enum ROUTE_PATH {
   HOME = '/dashboard',
   BAOVESAN = '/baovesan',
   TAIKHOAN_DANHSACH = '/taikhoan/danhsach',
+  TAIKHOAN_CHITIET = '/taikhoan/chitiet/:id',
   NAPTIEN = '/taikhoan/naptien',
   RUTTIEN = '/taikhoan/ruttien',
   CHUYENKHOAN = '/taikhoan/chuyenkhoan',

@@ -1,5 +1,18 @@
 import {SearchOutlined} from '@ant-design/icons';
-import {Button, Checkbox, Col, Form, Input, message, Pagination, Popconfirm, Row, Switch, Table} from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  message,
+  Pagination,
+  Popconfirm,
+  Row,
+  Switch,
+  Table,
+  Typography,
+} from 'antd';
 import ContainerLayout from 'containers/components/layout';
 import useError from 'containers/hooks/errorProvider/useError';
 import {useLoading} from 'containers/hooks/loadingProvider/userLoading';
@@ -107,7 +120,13 @@ const DanhSachTaiKhoanComponent = () => {
           </Row>
         )}
         loading={loading}>
-        <Table.Column<ColumnsProted> key="username" title="Tài khoản" dataIndex="username" width={150} />
+        <Table.Column<ColumnsProted>
+          key="username"
+          title="Tài khoản"
+          dataIndex="username"
+          width={150}
+          render={(text, record) => <Typography.Link href={`chitiet/${record._id.toString()}`}>{text}</Typography.Link>}
+        />
         <Table.Column<ColumnsProted> key="email" title="Email" dataIndex="email" width={250} />
         <Table.Column<ColumnsProted>
           key="is_sponsor"
