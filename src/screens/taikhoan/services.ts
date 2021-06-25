@@ -24,3 +24,13 @@ export const reset2FAUser = async (userId: string) => {
     throw error;
   }
 };
+
+
+export const detailUser = async (id: string) => {
+  try {
+    const result = await configServices.getService('users/detail-user-on-admin', {id});
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
