@@ -5,6 +5,7 @@ import ContainerLayout from 'containers/components/layout';
 import useError from 'containers/hooks/errorProvider/useError';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 import {formatter2} from 'utils/formatter';
 import {getDepositUsers} from './services';
 
@@ -21,9 +22,9 @@ interface ColumnsProted {
 }
 
 const DanhSachNapTienComponent = () => {
-  const [form] = Form.useForm();
   const {addError} = useError();
   const [loading, setLoading] = useState(false);
+  const {username} = useParams<{username: string}>();
   const [state, setState] = useState({
     data: [],
     page: 1,
@@ -31,13 +32,7 @@ const DanhSachNapTienComponent = () => {
   });
 
   useEffect(() => {
-    form.setFieldsValue({
-      username: '',
-      status: -1,
-      fromDate: moment(),
-      toDate: moment(),
-    });
-    getTransaction('', -1, new Date(), new Date(), 1);
+    getTransaction(username, -1, new Date('2021-01-01'), new Date(), 1);
   }, []);
 
   const getTransaction = async (username: string, status: number, fromDate: Date, toDate: Date, page: number) => {
@@ -58,60 +53,12 @@ const DanhSachNapTienComponent = () => {
     }
   };
 
-  const _search = () => {
-    setLoading(true);
-    try {
-      _changePage(1);
-    } catch (err) {
-      addError(err, 'Login fail');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const _changePage = (page: number) => {
-    const {username, status, fromDate, toDate} = form.getFieldsValue();
-    getTransaction(username, status, fromDate, toDate, page);
+    getTransaction(username, -1, new Date('2021-01-01'), new Date(), page);
   };
 
   return (
     <ContainerLayout>
-      <Card size="small">
-        <Form layout="vertical" form={form}>
-          <Row gutter={20}>
-            <Col xs={24} sm={6}>
-              <Form.Item label="Tài khoản" name="username">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col xs={24} sm={6}>
-              <Form.Item label="Trạng thái" name="status">
-                <Select defaultValue={-1}>
-                  <Select.Option value={-1}>Tất cả</Select.Option>
-                  <Select.Option value={0}>Đang xử lý</Select.Option>
-                  <Select.Option value={1}>Thành công</Select.Option>
-                  <Select.Option value={2}>Thất bại</Select.Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Form.Item label="Từ ngày" name="fromDate">
-                <DatePicker defaultValue={moment().startOf('week')} allowClear={false} format="DD/MM/YYYY" />
-              </Form.Item>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Form.Item label="Đến ngày" name="toDate">
-                <DatePicker defaultValue={moment().endOf('week')} allowClear={false} format="DD/MM/YYYY" />
-              </Form.Item>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Button icon={<SearchOutlined />} type="primary" onClick={_search}>
-                Tìm kiếm
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Card>
       <Table<ColumnsProted>
         size="small"
         bordered={true}
@@ -160,7 +107,7 @@ const DanhSachNapTienComponent = () => {
           dataIndex="amount"
           align="right"
           width={100}
-          render={(text) => <span>{formatter2.format(text)}$</span>}
+          render={(text) => <strong>{formatter2.format(text)}$</strong>}
         />
         <Table.Column<ColumnsProted>
           key="status"

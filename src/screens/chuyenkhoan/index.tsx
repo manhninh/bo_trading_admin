@@ -176,7 +176,7 @@ const DanhSachChuyenKhoanComponent = () => {
           dataIndex="amount"
           align="right"
           width={100}
-          render={(text) => <span>{formatter2.format(text)} USDT</span>}
+          render={(text) => <span>{formatter2.format(text)}$</span>}
         />
         <Table.Column<ColumnsProted>
           key="status"

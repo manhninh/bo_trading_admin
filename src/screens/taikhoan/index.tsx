@@ -150,7 +150,7 @@ const DanhSachTaiKhoanComponent = () => {
           dataIndex="amount"
           align="right"
           width={120}
-          render={(text) => <span>{formatter2.format(text)} USDF</span>}
+          render={(text) => <span>{formatter2.format(text)}$</span>}
         />
         <Table.Column<ColumnsProted>
           key="amount_trade"
@@ -158,7 +158,7 @@ const DanhSachTaiKhoanComponent = () => {
           dataIndex="amount_trade"
           align="right"
           width={120}
-          render={(text) => <span>{formatter2.format(text)} USDF</span>}
+          render={(text) => <span>{formatter2.format(text)}$</span>}
         />
         <Table.Column<ColumnsProted>
           key="amount_copytrade"
@@ -166,7 +166,7 @@ const DanhSachTaiKhoanComponent = () => {
           dataIndex="amount_copytrade"
           align="right"
           width={120}
-          render={(text) => <span>{formatter2.format(text)} USDF</span>}
+          render={(text) => <span>{formatter2.format(text)}$</span>}
         />
         <Table.Column<ColumnsProted>
           key="amount_expert"
@@ -174,7 +174,7 @@ const DanhSachTaiKhoanComponent = () => {
           dataIndex="amount_expert"
           align="right"
           width={120}
-          render={(text) => <span>{formatter2.format(text)} USDF</span>}
+          render={(text) => <span>{formatter2.format(text)}$</span>}
         />
         <Table.Column<ColumnsProted>
           key="_id"

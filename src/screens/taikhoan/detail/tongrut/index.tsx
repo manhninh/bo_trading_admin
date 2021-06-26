@@ -24,6 +24,7 @@ import useError from 'containers/hooks/errorProvider/useError';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {useParams} from 'react-router-dom';
 import {formatter2} from 'utils/formatter';
 import {autoWithdraw, getWithdrawUsers, withdrawConfirm, withdrawReject} from './services';
 
@@ -40,8 +41,7 @@ interface ColumnsProted {
 }
 
 const DanhSachNapTienComponent = () => {
-  const dispatch = useDispatch();
-  const [form] = Form.useForm();
+  const {username} = useParams<{username: string}>();
   const {addError} = useError();
   const [loading, setLoading] = useState(false);
   const [state, setState] = useState({
@@ -50,23 +50,9 @@ const DanhSachNapTienComponent = () => {
     total: 0,
     autoWithdraw: false,
   });
-  const configSettings = useAppSelector((state) => state.authState.accountInfor.config);
 
   useEffect(() => {
-    form.setFieldsValue({
-      username: '',
-      status: -1,
-      fromDate: moment(),
-      toDate: moment(),
-    });
-    if (configSettings.length > 0) {
-      let autoWithdraw = configSettings.find(
-        (item) => item.key === config.SYSTEM_ENABLE_AUTO_WITHDRAW && item.active === true,
-      )?.value;
-      autoWithdraw = Boolean(Number(autoWithdraw));
-      setState((state) => ({...state, autoWithdraw}));
-    }
-    getTransaction('', -1, new Date(), new Date(), 1);
+    getTransaction(username, -1, new Date('2021-01-01'), new Date(), 1);
   }, []);
 
   const getTransaction = async (username: string, status: number, fromDate: Date, toDate: Date, page: number) => {
@@ -100,20 +86,7 @@ const DanhSachNapTienComponent = () => {
   };
 
   const _changePage = (page: number) => {
-    const {username, status, fromDate, toDate} = form.getFieldsValue();
-    getTransaction(username, status, fromDate, toDate, page);
-  };
-
-  const _onOffProtectAuto = () => {
-    try {
-      autoWithdraw(
-        config.SYSTEM_ENABLE_AUTO_WITHDRAW || 'ENABLE_AUTO_WITHDRAW',
-        Number(!state.autoWithdraw).toString(),
-      );
-      setState((state) => ({...state, autoWithdraw: !state.autoWithdraw}));
-    } catch (error) {
-      addError(error, 'Bật/tắt rút tiền tự động thất bại');
-    }
+    getTransaction(username, -1, new Date('2021-01-01'), new Date(), page);
   };
 
   const acceptWithdraw = (transactionId: string) => async () => {
@@ -146,55 +119,6 @@ const DanhSachNapTienComponent = () => {
 
   return (
     <ContainerLayout>
-      <Card size="small">
-        <Form layout="vertical" form={form}>
-          <Row gutter={20}>
-            <Col xs={24} sm={6}>
-              <Form.Item label="Tài khoản" name="username">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col xs={24} sm={6}>
-              <Form.Item label="Trạng thái" name="status">
-                <Select defaultValue={-1}>
-                  <Select.Option value={-1}>Tất cả</Select.Option>
-                  <Select.Option value={0}>Chờ duyệt</Select.Option>
-                  <Select.Option value={3}>Đang xử lý</Select.Option>
-                  <Select.Option value={1}>Thành công</Select.Option>
-                  <Select.Option value={2}>Thất bại</Select.Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Form.Item label="Từ ngày" name="fromDate">
-                <DatePicker defaultValue={moment().startOf('week')} allowClear={false} format="DD/MM/YYYY" />
-              </Form.Item>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Form.Item label="Đến ngày" name="toDate">
-                <DatePicker defaultValue={moment().endOf('week')} allowClear={false} format="DD/MM/YYYY" />
-              </Form.Item>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Space>
-                <Button icon={<SearchOutlined />} type="primary" onClick={_search}>
-                  Tìm kiếm
-                </Button>
-                <Popconfirm
-                  placement="topLeft"
-                  title="Bạn chắc chắn muốn thay đổi trạng thái?"
-                  onConfirm={_onOffProtectAuto}
-                  okText="Đồng ý"
-                  cancelText="Hủy bỏ">
-                  <Button type="primary" danger>
-                    {state.autoWithdraw ? 'Tắt' : 'Bật'} rút tiền tự động
-                  </Button>
-                </Popconfirm>
-              </Space>
-            </Col>
-          </Row>
-        </Form>
-      </Card>
       <Table<ColumnsProted>
         size="small"
         bordered={true}
@@ -243,7 +167,7 @@ const DanhSachNapTienComponent = () => {
           dataIndex="amount"
           align="right"
           width={100}
-          render={(text) => <span>{formatter2.format(text)}$</span>}
+          render={(text) => <strong>{formatter2.format(text)}$</strong>}
         />
         <Table.Column<ColumnsProted>
           key="fee"
@@ -251,7 +175,7 @@ const DanhSachNapTienComponent = () => {
           dataIndex="fee"
           align="right"
           width={100}
-          render={(text) => <span>{formatter2.format(text)}$</span>}
+          render={(text) => <strong>{formatter2.format(text)}$</strong>}
         />
         <Table.Column<ColumnsProted>
           key="status"

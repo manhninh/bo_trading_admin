@@ -9,7 +9,7 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: getThemeVariables({
-              dark: true, // Enable dark mode
+              dark: false, // Enable dark mode
             }),
             javascriptEnabled: true,
           },

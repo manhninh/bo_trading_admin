@@ -8,6 +8,11 @@ const Home = lazy(() => import('screens/home'));
 const BaoVeSan = lazy(() => import('screens/baovesan'));
 const TaiKhoan = lazy(() => import('screens/taikhoan'));
 const TaiKhoanChiTiet = lazy(() => import('screens/taikhoan/detail'));
+const TaiKhoanTongNap = lazy(() => import('screens/taikhoan/detail/tongnap'));
+const TaiKhoanTongRut = lazy(() => import('screens/taikhoan/detail/tongrut'));
+const TaiKhoanHoaHong = lazy(() => import('screens/taikhoan/detail/hoahong'));
+const TaiKhoanLichSuGiaoDich = lazy(() => import('screens/taikhoan/detail/lichsutrade'));
+const TaiKhoanChuyenKhoan = lazy(() => import('screens/taikhoan/detail/chuyenkhoan'));
 const NapTien = lazy(() => import('screens/naptien'));
 const RutTien = lazy(() => import('screens/ruttien'));
 const ChuyenKhoan = lazy(() => import('screens/chuyenkhoan'));
@@ -26,6 +31,11 @@ const NavigationComponent = () => {
       <PrivateRoute path={ROUTE_PATH.BAOVESAN} comp={BaoVeSan} />
       <PrivateRoute path={ROUTE_PATH.TAIKHOAN_DANHSACH} comp={TaiKhoan} />
       <PrivateRoute path={ROUTE_PATH.TAIKHOAN_CHITIET} comp={TaiKhoanChiTiet} />
+      <PrivateRoute path={ROUTE_PATH.TAIKHOAN_TONGNAP} comp={TaiKhoanTongNap} />
+      <PrivateRoute path={ROUTE_PATH.TAIKHOAN_TONGRUT} comp={TaiKhoanTongRut} />
+      <PrivateRoute path={ROUTE_PATH.TAIKHOAN_HOAHONG} comp={TaiKhoanHoaHong} />
+      <PrivateRoute path={ROUTE_PATH.TAIKHOAN_LICHSUGIAODICH} comp={TaiKhoanLichSuGiaoDich} />
+      <PrivateRoute path={ROUTE_PATH.TAIKHOAN_CHUYENKHOAN} comp={TaiKhoanChuyenKhoan} />
       <PrivateRoute path={ROUTE_PATH.NAPTIEN} comp={NapTien} />
       <PrivateRoute path={ROUTE_PATH.RUTTIEN} comp={RutTien} />
       <PrivateRoute path={ROUTE_PATH.CHUYENKHOAN} comp={ChuyenKhoan} />

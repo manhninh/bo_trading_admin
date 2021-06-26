@@ -92,7 +92,7 @@ const BaoVeSanComponent = () => {
                 </Button>
               </Form.Item>
               <Paragraph type="danger" className="mb-0">
-                Tự động kích hoạt bảo vệ sàn khi chênh lệch lớn hơn 1000 USDF
+                Tự động kích hoạt bảo vệ sàn khi chênh lệch lớn hơn 1000 $
               </Paragraph>
             </Form>
           </Card>

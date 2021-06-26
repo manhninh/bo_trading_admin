@@ -45,7 +45,7 @@ const KhoiLuongBanComponent = () => {
           value={totalSell}
           valueStyle={{color: red.primary}}
           prefix={<ArrowDownOutlined />}
-          suffix="USDF"
+          suffix="$"
         />
       )}>
       <Table.Column<ColumnsProted> key="username" title="Tài khoản" dataIndex="username" />

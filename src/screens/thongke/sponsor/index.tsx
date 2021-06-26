@@ -105,7 +105,7 @@ const DanhSachNapTienComponent = () => {
             </Col>
             <Col sm={12} xs={24}>
               <Title className="mb-0 text-right" type="success" level={3}>
-                Tổng: {formatter2.format(state.total * 30)} USDT
+                Tổng: {formatter2.format(state.total * 30)} $
               </Title>
             </Col>
           </Row>
@@ -125,7 +125,7 @@ const DanhSachNapTienComponent = () => {
           dataIndex="amount"
           align="right"
           width={100}
-          render={(text) => <span>{formatter2.format(text)} USDT</span>}
+          render={(text) => <span>{formatter2.format(text)}$</span>}
         />
       </Table>
       <Pagination

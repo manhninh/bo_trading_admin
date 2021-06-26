@@ -1,3 +1,4 @@
+import {green, red} from '@ant-design/colors';
 import {SearchOutlined} from '@ant-design/icons';
 import {
   Button,
@@ -54,7 +55,7 @@ const ChiTietTaiKhoanComponent = () => {
     try {
       const result = await detailUser(id);
       if (result && result.data) {
-        console.log(result.data)
+        console.log(result.data);
         setData(result.data);
       } else message.error('Lỗi khi tải thông tin người dùng!');
     } catch (error) {
@@ -66,7 +67,7 @@ const ChiTietTaiKhoanComponent = () => {
 
   return (
     <ContainerLayout>
-      <Form labelCol={{span: 8}} wrapperCol={{span: 8}}>
+      <Form labelCol={{span: 8}} wrapperCol={{span: 9}}>
         <Form.Item label="Tài khoản">
           <Form.Item noStyle>
             <Input readOnly={true} value={data.username} />
@@ -111,7 +112,7 @@ const ChiTietTaiKhoanComponent = () => {
             <Form.Item noStyle>
               <Input readOnly={true} value={formatter2.format(data.user_deposits)} />
             </Form.Item>
-            <Typography.Link href="#API">Chi tiết</Typography.Link>
+            <Typography.Link href={`/tongnap/${data.username}`}>Chi tiết</Typography.Link>
           </Space>
         </Form.Item>
         <Form.Item label="Tổng tiền rút">
@@ -119,7 +120,7 @@ const ChiTietTaiKhoanComponent = () => {
             <Form.Item noStyle>
               <Input readOnly={true} value={formatter2.format(data.user_withdraws)} />
             </Form.Item>
-            <Typography.Link href="#API">Chi tiết</Typography.Link>
+            <Typography.Link href={`/tongrut/${data.username}`}>Chi tiết</Typography.Link>
           </Space>
         </Form.Item>
         <Form.Item label="Tổng tiền hoa hồng">
@@ -127,45 +128,53 @@ const ChiTietTaiKhoanComponent = () => {
             <Form.Item noStyle>
               <Input readOnly={true} value={formatter2.format(data.commissions)} />
             </Form.Item>
-            <Typography.Link href="#API">Chi tiết</Typography.Link>
+            <Typography.Link href={`/hoahong/${data._id}`}>Chi tiết</Typography.Link>
           </Space>
         </Form.Item>
-        <Form.Item label="Tổng tiền các lệnh win">
+        <Form.Item label="Tổng tiền các lệnh win / loss">
           <Space>
             <Form.Item noStyle>
-              <Input readOnly={true} value={formatter2.format(data.trade_win)} />
+              <Input
+                readOnly={true}
+                value={`${formatter2.format(data.trade_win)}`}
+                style={{color: green.primary?.toString()}}
+              />
             </Form.Item>
-            <Typography.Link href="#API">Chi tiết</Typography.Link>
+            <Form.Item noStyle>
+              <Input
+                readOnly={true}
+                value={`${formatter2.format(Math.abs(data.trade_loss))}`}
+                style={{color: red.primary?.toString()}}
+              />
+            </Form.Item>
+            <Typography.Link href={`/lichsutrade/${data._id}`}>Chi tiết</Typography.Link>
           </Space>
         </Form.Item>
-        <Form.Item label="Tổng tiền các lệnh loss">
+        <Form.Item label="Tổng tiền chuyển / nhận">
           <Space>
             <Form.Item noStyle>
-              <Input readOnly={true} value={formatter2.format(data.trade_loss)} />
+              <Input
+                readOnly={true}
+                style={{color: red.primary?.toString()}}
+                value={formatter2.format(data.tranfers_to_user)}
+              />
             </Form.Item>
-            <Typography.Link href="#API">Chi tiết</Typography.Link>
-          </Space>
-        </Form.Item>
-        <Form.Item label="Tổng tiền tranfer tới user khác">
-          <Space>
             <Form.Item noStyle>
-              <Input readOnly={true} value={formatter2.format(data.tranfers_to_user)} />
+              <Input
+                readOnly={true}
+                style={{color: green.primary?.toString()}}
+                value={formatter2.format(data.receive_to_user)}
+              />
             </Form.Item>
-            <Typography.Link href="#API">Chi tiết</Typography.Link>
-          </Space>
-        </Form.Item>
-        <Form.Item label="Tổng tiền nhận được tư user khác">
-          <Space>
-            <Form.Item noStyle>
-              <Input readOnly={true} value={formatter2.format(data.receive_to_user)} />
-            </Form.Item>
-            <Typography.Link href="#API">Chi tiết</Typography.Link>
+            <Typography.Link href={`/tranfers/${data._id}`}>Chi tiết</Typography.Link>
           </Space>
         </Form.Item>
         <Form.Item label=" " colon={false}>
-          <Button type="primary" danger={true} htmlType="submit">
-            Tắt 2FA
-          </Button>
+          <Space>
+            <Button type="primary" danger={true} htmlType="submit">
+              Khóa user
+            </Button>
+          </Space>
         </Form.Item>
       </Form>
     </ContainerLayout>

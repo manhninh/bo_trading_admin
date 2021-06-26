@@ -65,7 +65,7 @@ const GiaoDichTrongNgayComponent = () => {
             </Col>
             <Col span={12}>
               <Title className="mb-0 text-right" type="success" level={3}>
-                {formatter2.format(state.total)} USDF
+                {formatter2.format(state.total)} $
               </Title>
             </Col>
           </Row>
@@ -137,7 +137,7 @@ const GiaoDichTrongNgayComponent = () => {
           align="right"
           width={120}
           render={(text) => (
-            <span style={{color: text > 0 ? '#52c41a' : '#f5222d'}}>{formatter2.format(text)} USDF</span>
+            <span style={{color: text > 0 ? '#52c41a' : '#f5222d'}}>{formatter2.format(text)}$</span>
           )}
         />
       </Table>

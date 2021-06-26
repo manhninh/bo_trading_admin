@@ -68,7 +68,7 @@ const LichSuComponent = () => {
             <br />
             <span>Chênh lệch: </span>
             <span style={{color: record.diff >= 0 ? '#16ceb9' : '#f5222d', fontWeight: 'bold'}}>
-              {formatter2.format(record.diff)} USDF
+              {formatter2.format(record.diff)} $
             </span>
           </>
         )}
