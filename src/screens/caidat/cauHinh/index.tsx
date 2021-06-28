@@ -16,6 +16,7 @@ const BaoVeSanComponent = () => {
     protectLevel1: 0,
     protectLevel2: 0,
     protectLevel3: 0,
+    protectLevel4: 0,
   });
 
   useEffect(() => {
@@ -35,10 +36,14 @@ const BaoVeSanComponent = () => {
         const protectLevel3 = Number(
           configSettings.find((item) => item.key === config.SYSTEM_PROTECT_LEVEL_3 && item.active === true)?.value || 0,
         );
+        const protectLevel4 = Number(
+          configSettings.find((item) => item.key === config.SYSTEM_PROTECT_LEVEL_4 && item.active === true)?.value || 0,
+        );
         setState({
           protectLevel1,
           protectLevel2,
           protectLevel3,
+          protectLevel4,
         });
       } else message.error('Lỗi khi tải cấu hình bảo vệ sàn!');
     } catch (error) {
@@ -53,7 +58,7 @@ const BaoVeSanComponent = () => {
   const _submitForm = async () => {
     showLoading();
     try {
-      await saveProtectDetails(state.protectLevel1, state.protectLevel2, state.protectLevel3);
+      await saveProtectDetails(state.protectLevel1, state.protectLevel2, state.protectLevel3, state.protectLevel4);
     } catch (error) {
       addError(error, 'Lỗi khi lưu cấu hình bảo vệ sàn!');
     } finally {
@@ -68,21 +73,27 @@ const BaoVeSanComponent = () => {
           <Card size="small" className="mb-0-75">
             <Divider>Bảo vệ sàn tự động</Divider>
             <Form labelCol={{span: 8}}>
-              <Form.Item label="Mức 1 -> 10$ - 50$" labelAlign="left">
+              <Form.Item label="Mức 1 -> 1$ - 10$" labelAlign="left">
                 <Form.Item noStyle>
                   <InputNumber min={1} max={10} value={state.protectLevel1} onChange={_changeValues('protectLevel1')} />
                 </Form.Item>
                 <span className="ant-form-text"> lệnh kích hoạt 1 lần bảo vệ sàn</span>
               </Form.Item>
-              <Form.Item label="Mức 2 -> 50$ - 200$" labelAlign="left">
+              <Form.Item label="Mức 2 -> 10$ - 50$" labelAlign="left">
                 <Form.Item noStyle>
                   <InputNumber min={1} max={10} value={state.protectLevel2} onChange={_changeValues('protectLevel2')} />
                 </Form.Item>
                 <span className="ant-form-text"> lệnh kích hoạt 1 lần bảo vệ sàn</span>
               </Form.Item>
-              <Form.Item label="Mức 3 -> 200$ - 1000$" labelAlign="left">
+              <Form.Item label="Mức 3 -> 50$ - 200$" labelAlign="left">
                 <Form.Item noStyle>
                   <InputNumber min={1} max={10} value={state.protectLevel3} onChange={_changeValues('protectLevel3')} />
+                </Form.Item>
+                <span className="ant-form-text"> lệnh kích hoạt 1 lần bảo vệ sàn</span>
+              </Form.Item>
+              <Form.Item label="Mức 4 -> 200$ - 1000$" labelAlign="left">
+                <Form.Item noStyle>
+                  <InputNumber min={1} max={10} value={state.protectLevel4} onChange={_changeValues('protectLevel4')} />
                 </Form.Item>
                 <span className="ant-form-text"> lệnh kích hoạt 1 lần bảo vệ sàn</span>
               </Form.Item>

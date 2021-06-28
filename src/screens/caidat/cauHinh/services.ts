@@ -9,12 +9,13 @@ export const getProtectDetails = async () => {
   }
 };
 
-export const saveProtectDetails = async (protectLevel1:number,protectLevel2:number,protectLevel3:number) => {
+export const saveProtectDetails = async (protectLevel1:number,protectLevel2:number,protectLevel3:number,protectLevel4:number) => {
   try {
     const result = await configServices.postService('admins/save_protect', {
       protectLevel1,
       protectLevel2,
-      protectLevel3
+      protectLevel3,
+      protectLevel4
     });
     return result;
   } catch (error) {

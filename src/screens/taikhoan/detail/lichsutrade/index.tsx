@@ -39,7 +39,7 @@ const DanhSachNapTienComponent = () => {
   const getTransaction = async (id: string, page: number) => {
     setLoading(true);
     try {
-      const result = await getTradeHistory(id, page.toString(), 50, '0');
+      const result = await getTradeHistory(id, page.toString(), 100, '0');
       if (result && result.data) {
         setState({
           page,
@@ -121,7 +121,7 @@ const DanhSachNapTienComponent = () => {
       </Table>
       <Pagination
         current={state.page}
-        pageSize={50}
+        pageSize={100}
         total={state.total}
         showSizeChanger={false}
         onChange={_changePage}

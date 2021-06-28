@@ -36,10 +36,10 @@ const DanhSachChuyenKhoanComponent = () => {
     form.setFieldsValue({
       username: '',
       status: -1,
-      fromDate: moment(),
-      toDate: moment(),
+      fromDate: moment().subtract(3, "month").startOf("month"),
+      toDate: moment().endOf("month"),
     });
-    getTransaction('', -1, new Date(), new Date(), 1);
+    getTransaction('', -1, new Date(moment().subtract(3, "month").startOf("month").toString()), new Date(moment().endOf("month").toString()), 1);
   }, []);
 
   const getTransaction = async (username: string, status: number, fromDate: Date, toDate: Date, page: number) => {

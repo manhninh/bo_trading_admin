@@ -56,8 +56,8 @@ const DanhSachNapTienComponent = () => {
     form.setFieldsValue({
       username: '',
       status: -1,
-      fromDate: moment(),
-      toDate: moment(),
+      fromDate: moment().subtract(3, "month").startOf("month"),
+      toDate: moment().endOf("month"),
     });
     if (configSettings.length > 0) {
       let autoWithdraw = configSettings.find(
@@ -66,7 +66,7 @@ const DanhSachNapTienComponent = () => {
       autoWithdraw = Boolean(Number(autoWithdraw));
       setState((state) => ({...state, autoWithdraw}));
     }
-    getTransaction('', -1, new Date(), new Date(), 1);
+    getTransaction('', -1, new Date(moment().subtract(3, "month").startOf("month").toString()), new Date(moment().endOf("month").toString()), 1);
   }, []);
 
   const getTransaction = async (username: string, status: number, fromDate: Date, toDate: Date, page: number) => {
@@ -167,12 +167,12 @@ const DanhSachNapTienComponent = () => {
             </Col>
             <Col xs={12} sm={6}>
               <Form.Item label="Từ ngày" name="fromDate">
-                <DatePicker defaultValue={moment().startOf('week')} allowClear={false} format="DD/MM/YYYY" />
+                <DatePicker defaultValue={moment().startOf('month')} allowClear={false} format="DD/MM/YYYY" />
               </Form.Item>
             </Col>
             <Col xs={12} sm={6}>
               <Form.Item label="Đến ngày" name="toDate">
-                <DatePicker defaultValue={moment().endOf('week')} allowClear={false} format="DD/MM/YYYY" />
+                <DatePicker defaultValue={moment().endOf("month")} allowClear={false} format="DD/MM/YYYY" />
               </Form.Item>
             </Col>
             <Col xs={12} sm={6}>
